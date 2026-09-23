@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Shop all natural skincare essentials from All Natural." />
+    <title>Shop All — All Natural</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="products-page">
+    <header class="site-header products-header">
+      <nav class="site-nav site-nav--left" aria-label="Primary navigation">
+        <div class="nav-item"><a class="nav-trigger" href="#collections" data-panel="collections">Collections</a></div>
+        <div class="nav-item"><a class="nav-trigger is-current" href="products.html" data-panel="products">Products</a></div>
+        <div class="nav-item"><a class="nav-trigger" href="#brand" data-panel="brand">Brand</a></div>
+        <div class="nav-item"><a href="#journal">Journal</a></div>
+      </nav>
+      <a class="brand brand--desktop" href="index.html" aria-label="All Natural home">All Natural<sup>™</sup></a>
+      <nav class="site-nav site-nav--right" aria-label="Utility navigation">
+        <a href="#account">Account</a><a href="#favorites">Favorites</a><a href="#search">Search</a><a href="#bag">Bag (0)</a>
+      </nav>
+      <div class="mega-panels" aria-label="Navigation details">
+        <section class="mega-panel mega-panel--collections" data-panel-content="collections" aria-label="Collections">
+          <div class="panel-cards panel-cards--four">
+            <a class="panel-card panel-card--blue" href="#body"><span>Body Care</span><img src="https://framerusercontent.com/images/QHePlVBtjDPN3uX14Q2GLZhDM.jpg" alt="Body care" /></a>
+            <a class="panel-card panel-card--olive" href="#skin"><span>Skin Care</span><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Skin care" /></a>
+            <a class="panel-card panel-card--rose" href="#hair"><span>Hair Care</span><img src="https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg" alt="Hair care" /></a>
+            <a class="panel-card panel-card--stone" href="#kits"><span>Kits</span><img src="https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg" alt="Kits" /></a>
+          </div>
+        </section>
+        <section class="mega-panel mega-panel--products" data-panel-content="products" aria-label="Products">
+          <div class="product-menu-links"><div><small>Shop</small><a href="products.html">All Products</a><a href="#new">New Arrivals</a><a href="#bestsellers">Bestsellers</a><a href="#sale">On Sale</a><a href="#kits">Kits</a></div><div><small>Category</small><a href="#body">Body</a><a href="#skin">Skin</a><a href="#hair">Hair</a></div><div><small>Type</small><a href="#cream">Cream</a><a href="#lotion">Lotion</a><a href="#cleanser">Cleanser</a><a href="#oil">Oil</a><a href="#serum">Serum</a></div></div>
+          <div class="panel-cards panel-cards--two"><a class="panel-card panel-card--serum" href="#serum"><span>Serums</span><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Serums" /></a><a class="panel-card panel-card--cream" href="#cream"><span>Creams</span><img src="https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg" alt="Creams" /></a></div>
+        </section>
+        <section class="mega-panel mega-panel--brand" data-panel-content="brand" aria-label="Brand">
+          <div class="panel-cards panel-cards--four panel-cards--editorial"><a class="panel-card panel-card--earth" href="#about"><span>About us</span></a><a class="panel-card panel-card--sun" href="#values"><span>Values</span></a><a class="panel-card panel-card--bubbles" href="#ingredients"><span>Ingredients</span></a><a class="panel-card panel-card--sky" href="#environment"><span>Environment</span></a></div>
+          <div class="panel-other"><small>Other</small><a href="#stores">Stores</a><a href="#stockists">Stockists</a><a href="#faqs">FAQ's</a><a href="#contact">Contact</a></div>
+        </section>
+      </div>
+    </header>
+
+    <main>
+      <section class="shop-all-section" aria-labelledby="shop-all-heading">
+        <div class="shop-all-copy">
+          <div>
+            <h1 id="shop-all-heading">Shop All</h1>
+            <p>Skincare that works in harmony with your skin. Find the perfect essentials for your routine.</p>
+          </div>
+        </div>
+        <div class="shop-all-image">
+          <img src="https://framerusercontent.com/images/eqgroJMQvwMy92wfars1DTFBta8.jpg" alt="Shop All Skincare" />
+        </div>
+      </section>
+
+      <section class="products-listing" aria-label="All products">
+        <aside class="products-filters" aria-label="Product filters">
+          <div class="filter-heading"><span>Filter (0)</span><button type="button" data-clear-filters>Clear</button></div>
+          <div class="filter-group">
+            <button class="filter-group__title" type="button" aria-expanded="true">Collections <span>⌃</span></button>
+            <label><input type="checkbox" name="collection" value="new" /> New Arrivals</label>
+            <label><input type="checkbox" name="collection" value="bestsellers" /> Bestsellers</label>
+            <label><input type="checkbox" name="collection" value="sale" /> On Sale</label>
+            <label><input type="checkbox" name="collection" value="kits" /> Kits</label>
+            <label><input type="checkbox" name="collection" value="giftcards" /> Giftcards</label>
+          </div>
+          <div class="filter-group">
+            <button class="filter-group__title" type="button" aria-expanded="true">Category <span>⌃</span></button>
+            <label><input type="checkbox" name="category" value="body" /> Body</label>
+            <label><input type="checkbox" name="category" value="skin" /> Skin</label>
+            <label><input type="checkbox" name="category" value="hair" /> Hair</label>
+          </div>
+          <div class="filter-group">
+            <button class="filter-group__title" type="button" aria-expanded="true">Type <span>⌄</span></button>
+            <label><input type="checkbox" name="type" value="cream" /> Cream</label>
+            <label><input type="checkbox" name="type" value="lotion" /> Lotion</label>
+            <label><input type="checkbox" name="type" value="cleanser" /> Cleanser</label>
+            <label><input type="checkbox" name="type" value="oil" /> Oil</label>
+            <label><input type="checkbox" name="type" value="serum" /> Serum</label>
+          </div>
+        </aside>
+
+        <div class="products-panel">
+          <div class="products-toolbar"><span data-results-count>12 products</span><label>Sort by: <select data-sort-products aria-label="Sort products"><option value="featured">Featured</option><option value="low">Price: Low to high</option><option value="high">Price: High to low</option><option value="name">Name</option></select></label></div>
+          <div class="catalog-grid" data-catalog-grid>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="body" data-type="lotion" data-price="39"><a class="catalog-image" href="#body-lotion"><img src="https://framerusercontent.com/images/QHePlVBtjDPN3uX14Q2GLZhDM.jpg" alt="Body Lotion" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Body Lotion to favorites">♡</button></a><div class="catalog-info"><div><h2>Body Lotion</h2><p>Body</p></div><strong>$39.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="new" data-category="skin" data-type="cream" data-price="59"><a class="catalog-image" href="#radiant-cream"><img src="https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg" alt="Radiant Cream" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Radiant Cream to favorites">♡</button></a><div class="catalog-info"><div><h2>Radiant Cream</h2><p>Skin</p></div><strong>$59.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="sale" data-category="hair" data-type="oil" data-price="35"><a class="catalog-image" href="#nourish-oil"><img src="https://framerusercontent.com/images/STJc5naSqcZ3mkXNvWbqyjqlDHg.jpg" alt="Nourish Hair Oil" loading="lazy" /><span class="catalog-badge">-20%</span><button class="catalog-favorite" type="button" aria-label="Add Nourish Hair Oil to favorites">♡</button></a><div class="catalog-info"><div><h2>Nourish Hair Oil</h2><p>Hair</p></div><strong><del>$44.00</del> $35.20</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="skin" data-type="cleanser" data-price="32"><a class="catalog-image" href="#daily-cleanser"><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Daily Cleanser" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Daily Cleanser to favorites">♡</button></a><div class="catalog-info"><div><h2>Daily Cleanser</h2><p>Skin</p></div><strong>$32.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="body" data-type="serum" data-price="79"><a class="catalog-image" href="#eye-serum"><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Eye Serum" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Eye Serum to favorites">♡</button></a><div class="catalog-info"><div><h2>Eye Serum</h2><p>Body</p></div><strong>$79.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="new" data-category="hair" data-type="serum" data-price="49"><a class="catalog-image" href="#hair-serum"><img src="https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg" alt="Hair Serum" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Hair Serum to favorites">♡</button></a><div class="catalog-info"><div><h2>Hair Serum</h2><p>Hair</p></div><strong>$49.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="sale" data-category="body" data-type="serum" data-price="63"><a class="catalog-image" href="#eye-repair"><img src="https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg" alt="Eye Repair" loading="lazy" /><span class="catalog-badge">-20%</span><button class="catalog-favorite" type="button" aria-label="Add Eye Repair to favorites">♡</button></a><div class="catalog-info"><div><h2>Eye Repair</h2><p>Body</p></div><strong><del>$79.00</del> $63.20</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="new" data-category="hair" data-type="lotion" data-price="49"><a class="catalog-image" href="#scalp-detox"><img src="https://framerusercontent.com/images/QHePlVBtjDPN3uX14Q2GLZhDM.jpg" alt="Scalp Detox" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Scalp Detox to favorites">♡</button></a><div class="catalog-info"><div><h2>Scalp Detox</h2><p>Hair</p></div><strong>$49.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="skin" data-type="cream" data-price="49"><a class="catalog-image" href="#body-cream"><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Body Cream" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Body Cream to favorites">♡</button></a><div class="catalog-info"><div><h2>Body Cream</h2><p>Skin</p></div><strong>$49.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="skin" data-type="cleanser" data-price="49"><a class="catalog-image" href="#body-wash"><img src="https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg" alt="Body Wash" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Body Wash to favorites">♡</button></a><div class="catalog-info"><div><h2>Body Wash</h2><p>Skin</p></div><strong>$49.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="sale" data-category="skin" data-type="serum" data-price="48.3"><a class="catalog-image" href="#body-serum"><img src="https://framerusercontent.com/images/STJc5naSqcZ3mkXNvWbqyjqlDHg.jpg" alt="Body Serum" loading="lazy" /><span class="catalog-badge">-30%</span><button class="catalog-favorite" type="button" aria-label="Add Body Serum to favorites">♡</button></a><div class="catalog-info"><div><h2>Body Serum</h2><p>Skin</p></div><strong><del>$69.00</del> $48.30</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="new" data-category="hair" data-type="oil" data-price="49"><a class="catalog-image" href="#hair-oil"><img src="https://framerusercontent.com/images/eqgroJMQvwMy92wfars1DTFBta8.jpg" alt="Hair Oil" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Hair Oil to favorites">♡</button></a><div class="catalog-info"><div><h2>Hair Oil</h2><p>Hair</p></div><strong>$49.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="skin" data-type="serum" data-price="79"><a class="catalog-image" href="#eye-serum-2"><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Eye Serum" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Eye Serum to favorites">♡</button></a><div class="catalog-info"><div><h2>Eye Serum</h2><p>Skin</p></div><strong>$79.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="new" data-category="hair" data-type="serum" data-price="49"><a class="catalog-image" href="#hair-serum-2"><img src="https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg" alt="Hair Serum" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Hair Serum to favorites">♡</button></a><div class="catalog-info"><div><h2>Hair Serum</h2><p>Hair</p></div><strong>$49.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="kits" data-category="body" data-type="cream" data-price="89"><a class="catalog-image" href="#body-kit"><img src="https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg" alt="Body Essentials Kit" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Body Essentials Kit to favorites">♡</button></a><div class="catalog-info"><div><h2>Body Essentials Kit</h2><p>Body</p></div><strong>$89.00</strong></div></article>
+          </div>
+        </div>
+      </section>
+
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="body" data-type="lotion" data-price="39"><a class="catalog-image" href="#body-lotion"><img src="https://framerusercontent.com/images/QHePlVBtjDPN3uX14Q2GLZhDM.jpg" alt="Body Lotion" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Body Lotion to favorites">♡</button></a><div class="catalog-info"><div><h2>Body Lotion</h2><p>Body</p></div><strong>$39.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="new" data-category="skin" data-type="cream" data-price="59"><a class="catalog-image" href="#radiant-cream"><img src="https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg" alt="Radiant Cream" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Radiant Cream to favorites">♡</button></a><div class="catalog-info"><div><h2>Radiant Cream</h2><p>Skin</p></div><strong>$59.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="sale" data-category="hair" data-type="oil" data-price="35"><a class="catalog-image" href="#nourish-oil"><img src="https://framerusercontent.com/images/STJc5naSqcZ3mkXNvWbqyjqlDHg.jpg" alt="Nourish Hair Oil" loading="lazy" /><span class="catalog-badge">-20%</span><button class="catalog-favorite" type="button" aria-label="Add Nourish Hair Oil to favorites">♡</button></a><div class="catalog-info"><div><h2>Nourish Hair Oil</h2><p>Hair</p></div><strong><del>$44.00</del> $35.20</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="skin" data-type="cleanser" data-price="32"><a class="catalog-image" href="#daily-cleanser"><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Daily Cleanser" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Daily Cleanser to favorites">♡</button></a><div class="catalog-info"><div><h2>Daily Cleanser</h2><p>Skin</p></div><strong>$32.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="kits" data-category="hair" data-type="lotion" data-price="99"><a class="catalog-image" href="#hair-care-kit"><img src="https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg" alt="Hair Care Kit" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Hair Care Kit to favorites">♡</button></a><div class="catalog-info"><div><h2>Hair Care Kit</h2><p>Hair</p></div><strong>$99.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="new" data-category="body" data-type="lotion" data-price="45"><a class="catalog-image" href="#body-milk"><img src="https://framerusercontent.com/images/eqgroJMQvwMy92wfars1DTFBta8.jpg" alt="Body Milk" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Body Milk to favorites">♡</button></a><div class="catalog-info"><div><h2>Body Milk</h2><p>Body</p></div><strong>$45.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="sale" data-category="skin" data-type="serum" data-price="55"><a class="catalog-image" href="#brightening-serum"><img src="https://framerusercontent.com/images/STJc5naSqcZ3mkXNvWbqyjqlDHg.jpg" alt="Brightening Serum" loading="lazy" /><span class="catalog-badge">-30%</span><button class="catalog-favorite" type="button" aria-label="Add Brightening Serum to favorites">♡</button></a><div class="catalog-info"><div><h2>Brightening Serum</h2><p>Skin</p></div><strong><del>$79.00</del> $55.30</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="hair" data-type="cleanser" data-price="42"><a class="catalog-image" href="#scalp-cleanser"><img src="https://framerusercontent.com/images/QHePlVBtjDPN3uX14Q2GLZhDM.jpg" alt="Scalp Cleanser" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Scalp Cleanser to favorites">♡</button></a><div class="catalog-info"><div><h2>Scalp Cleanser</h2><p>Hair</p></div><strong>$42.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="kits" data-category="skin" data-type="serum" data-price="109"><a class="catalog-image" href="#skin-ritual-kit"><img src="https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg" alt="Skin Ritual Kit" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Skin Ritual Kit to favorites">♡</button></a><div class="catalog-info"><div><h2>Skin Ritual Kit</h2><p>Skin</p></div><strong>$109.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="new" data-category="body" data-type="cream" data-price="29"><a class="catalog-image" href="#hand-cream"><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Hand Cream" loading="lazy" /><span class="catalog-badge">New</span><button class="catalog-favorite" type="button" aria-label="Add Hand Cream to favorites">♡</button></a><div class="catalog-info"><div><h2>Hand Cream</h2><p>Body</p></div><strong>$29.00</strong></div></article>
+            <article class="catalog-card" data-product-card data-collection="bestsellers" data-category="body" data-type="oil" data-price="46"><a class="catalog-image" href="#body-oil"><img src="https://framerusercontent.com/images/STJc5naSqcZ3mkXNvWbqyjqlDHg.jpg" alt="Body Oil" loading="lazy" /><button class="catalog-favorite" type="button" aria-label="Add Body Oil to favorites">♡</button></a><div class="catalog-info"><div><h2>Body Oil</h2><p>Body</p></div><strong>$46.00</strong></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="social-gallery-section" aria-labelledby="products-social-heading">
+        <div class="gallery-header"><span class="gallery-label">Follow us</span><h2 id="products-social-heading">@AllNaturalSkin</h2></div>
+        <div class="gallery-grid">
+          <a class="gallery-item gallery-item--instagram" href="#instagram" aria-label="Follow All Natural on Instagram"><img src="https://framerusercontent.com/images/UNMelRpSKvkc93Tbg94BjYDftA.jpg" alt="All Natural social post" loading="lazy" /><span aria-hidden="true">◎</span></a>
+          <a class="gallery-item" href="#instagram" aria-label="View All Natural social post"><img src="https://framerusercontent.com/images/qHDHrdGlxMFFTScjfSchORJZg.png?scale-down-to=512" alt="All Natural social post" loading="lazy" /></a>
+          <a class="gallery-item" href="#instagram" aria-label="View All Natural social post"><img src="https://framerusercontent.com/images/HYXb45BcTVXrkHmHMfNABkTklA.jpg" alt="All Natural social post" loading="lazy" /></a>
+          <a class="gallery-item" href="#instagram" aria-label="View All Natural social post"><img src="https://framerusercontent.com/images/qHDHrdGlxMFFTScjfSchORJZg.png?scale-down-to=512" alt="All Natural social post" loading="lazy" /></a>
+          <a class="gallery-item" href="#instagram" aria-label="View All Natural social post"><img src="https://framerusercontent.com/images/E95yNJ094Ffkgt98Ck3vHYlWIA.jpg" alt="All Natural social post" loading="lazy" /></a>
+        </div>
+      </section>
+
+      <section class="newsletter-section" aria-labelledby="products-newsletter-heading">
+        <img class="newsletter-background" src="https://framerusercontent.com/images/kx3HArMnJGgPwHoxnFmoTAF30.png?scale-down-to=2048" alt="Natural skincare editorial portrait" loading="lazy" />
+        <div class="newsletter-overlay"></div>
+        <div class="newsletter-content">
+          <h2 id="products-newsletter-heading">Stay in the loop</h2>
+          <p>Be the first to know about new collections and exclusive offers.</p>
+          <form class="subscribe-form" data-subscribe-form><input type="email" name="Email" placeholder="Email Address" aria-label="Email address" required /><button type="submit" aria-label="Subscribe"><span aria-hidden="true">→</span></button></form>
+          <p class="subscribe-success" data-subscribe-success hidden>Thanks — you’re on the list.</p>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-main">
+        <div class="footer-brand"><a class="footer-logo" href="index.html">All Natural<sup>™</sup></a><p>The next wave of natural skincare.</p><div class="footer-socials" aria-label="Social media links"><a href="#instagram" aria-label="Instagram">◎</a><a href="#x" aria-label="X">𝕏</a><a href="#facebook" aria-label="Facebook">●</a><a href="#linkedin" aria-label="LinkedIn">in</a></div></div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div class="footer-column"><h3>Shop</h3><a href="products.html">All Products</a><a href="#body">Body</a><a href="#skin">Skin</a><a href="#hair">Hair</a><a href="#kits">Kits</a></div>
+          <div class="footer-column"><h3>Company</h3><a href="index.html#brand">About us</a><a href="#values">Values</a><a href="#ingredients">Ingredients</a><a href="#environment">Environment</a><a href="index.html#journal">Journal</a></div>
+          <div class="footer-column"><h3>Other</h3><a href="#faqs">FAQ’s</a><a href="#stores">Stores</a><a href="#stockists">Stockists</a><a href="#assets">Site Assets</a><a href="#contact">Contact</a></div>
+          <div class="footer-column"><h3>Legal</h3><a href="#terms">Terms of Service</a><a href="#returns">Return Policy</a><a href="#privacy">Privacy Policy</a></div>
+        </nav>
+      </div>
+      <div class="footer-bottom"><span class="footer-country">🇺🇸 &nbsp;US</span><div class="footer-credit"><span>©2026 ALL NATURAL</span><span>Made by ena</span><span>Shopify by Framer Commerce</span></div><div class="footer-payments" aria-label="Payment methods"><span>VISA</span><span>●●</span><span>stripe</span></div></div>
+    </footer>
+    <script src="script.js" defer></script>
+  </body>
+</html>

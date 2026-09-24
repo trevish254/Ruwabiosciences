@@ -38,7 +38,7 @@ const bagDrawer = document.querySelector('[data-bag-drawer]');
 const bagItemsContainer = document.querySelector('[data-bag-items]');
 const bagCount = document.querySelector('[data-bag-count]');
 const bagSubtotal = document.querySelector('[data-bag-subtotal]');
-const formatMoney = (value) => `$${value.toFixed(2)}`;
+const formatMoney = (value) => `KES ${Number(value).toFixed(2)}`;
 const saveBag = () => localStorage.setItem(bagStorageKey, JSON.stringify(bagItems));
 const renderBag = () => {
   const itemCount = bagItems.reduce((total, item) => total + item.quantity, 0);
@@ -90,14 +90,11 @@ bagItemsContainer.addEventListener('click', (event) => {
 });
 
 const searchProducts = [
-  { id: 'body-serum', name: 'Body Serum', category: 'Serum', price: '$48.30 USD', compareAt: '$69.00 USD', image: 'https://framerusercontent.com/images/STJc5naSqcZ3mkXNvWbqyjqlDHg.jpg' },
-  { id: 'eye-serum', name: 'Eye Serum', category: 'Serum', price: '$79.00 USD', image: 'https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg' },
-  { id: 'hair-serum', name: 'Hair Serum', category: 'Serum', price: '$49.00 USD', image: 'https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg' },
-  { id: 'scalp-detox', name: 'Scalp Detox', category: 'Serum', price: '$49.00 USD', image: 'https://framerusercontent.com/images/QHePlVBtjDPN3uX14Q2GLZhDM.jpg' },
-  { id: 'balance-kit', name: 'Balance Kit', category: 'Serum', price: '$89.00 USD', image: 'https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg' },
-  { id: 'body-cream', name: 'Body Cream', category: 'Skin', price: '$49.00 USD', image: 'https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg' },
-  { id: 'body-wash', name: 'Body Wash', category: 'Body', price: '$49.00 USD', image: 'https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg' },
-  { id: 'face-toner', name: 'Face Toner', category: 'Skin', price: '$69.00 USD', image: 'https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg' }
+  { id: 'malaria-pf-pan', name: 'Malaria PF/PAN', category: 'RDT Kits & Reagents', price: 'KES 1,500.00', image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=85' },
+  { id: 'sinocare-blood-sugar-machine', name: 'Sinocare Blood Sugar Machine', category: 'POC Equipment', price: 'KES 700.00', image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85' },
+  { id: 'mission-hb-machine', name: 'Mission Hb Machine', category: 'POC Equipment', price: 'KES 9,750.00', image: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=85' },
+  { id: 'urinalysis-strips', name: 'Urinalysis Strips (10 Para)', category: 'Laboratory Consumables', price: 'KES 800.00', image: 'https://images.unsplash.com/photo-1583912086096-8c60c8a7f7f8?auto=format&fit=crop&w=900&q=85' },
+  { id: 'patient-monitor', name: 'Patient Monitor', category: 'Clinic Infrastructure', price: 'KES 120,000.00', image: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=900&q=85' }
 ];
 document.body.insertAdjacentHTML('beforeend', `<div class="search-overlay" data-search-close></div>
   <aside class="search-drawer" data-search-drawer aria-label="Search products" aria-hidden="true">
@@ -145,12 +142,13 @@ try {
 const saveFavorites = () => localStorage.setItem(favoriteStorageKey, JSON.stringify(favoriteItems));
 const getProductFromCard = (card) => {
   const name = card?.querySelector('h2, h3, .environment-mini-product strong')?.textContent.trim();
+  const id = card?.dataset.productId || name?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const category = card?.querySelector('.product-info p, .catalog-info p, .featured-info p, .feature-product-info p, .recommendation-card p, .mini-product__details p, .environment-mini-product small')?.textContent.trim() || 'Skin';
   const image = card?.querySelector('img')?.src || '';
   const priceElement = card?.querySelector('.product-info strong, .catalog-info strong, .featured-info strong, .feature-product-info strong, .recommendation-card strong, .mini-product__details strong, .environment-mini-product b');
   const priceText = priceElement?.textContent.match(/\$\s*[\d,.]+\s*$/)?.[0] || priceElement?.textContent.match(/\$\s*[\d,.]+/)?.[0];
   const price = Number(priceText?.replace(/[^\d.]/g, '')) || Number(card?.dataset.price) || 0;
-  return name && price ? { id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, category, price, image } : null;
+  return name && price ? { id, name, category, price, image } : null;
 };
 const syncFavoriteButton = (button) => {
   const product = getProductFromCard(button.closest('.product-card, .catalog-card, .featured-card, .feature-product-card, .recommendation-card, .mini-product, .environment-mini-product'));
@@ -233,10 +231,41 @@ pagination.forEach((dot) => {
 });
 
 const menuToggle = document.querySelector('.menu-toggle');
+const mobileMenuMarkup = `<div class="mobile-menu-backdrop" data-mobile-menu-close></div><aside class="mobile-menu" data-mobile-menu aria-hidden="true"><div class="mobile-menu-header"><button type="button" data-mobile-menu-close>Close</button><strong>Ruwa Biosciences<sup>™</sup></strong><span aria-hidden="true"></span></div><nav class="mobile-menu-primary" data-mobile-primary aria-label="Mobile navigation"><button type="button" data-mobile-panel="collections">Categories <span>→</span></button><button type="button" data-mobile-panel="products">Products <span>→</span></button><button type="button" data-mobile-panel="brand">About Ruwa <span>→</span></button><a href="index.html#journal">Resources</a></nav><div class="mobile-menu-view" data-mobile-view hidden></div><div class="mobile-menu-secondary"><a href="#account">Account</a><a href="favorites.html">Favorites</a><a href="contact.html">Contact</a><a href="faqs.html">FAQs</a><a href="stockists.html">Distributors</a><a href="stores.html">Service areas</a></div></aside>`;
+document.body.insertAdjacentHTML('beforeend', mobileMenuMarkup);
+const mobileMenu = document.querySelector('[data-mobile-menu]');
+const mobileMenuBackdrop = document.querySelector('.mobile-menu-backdrop');
+const mobileMenuView = document.querySelector('[data-mobile-view]');
+const mobileMenuPrimary = document.querySelector('[data-mobile-primary]');
+const closeMobileMenu = () => {
+  mobileMenu?.classList.remove('is-open');
+  mobileMenuBackdrop?.classList.remove('is-open');
+  mobileMenu?.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('mobile-menu-is-open');
+  if (mobileMenuPrimary) mobileMenuPrimary.hidden = false;
+  if (mobileMenuView) { mobileMenuView.hidden = true; mobileMenuView.replaceChildren(); }
+  menuToggle?.setAttribute('aria-expanded', 'false');
+};
+const showMobilePanel = (name) => {
+  const panel = document.querySelector(`[data-panel-content="${name}"]`);
+  if (!panel || !mobileMenuView || !mobileMenuPrimary) return;
+  mobileMenuPrimary.hidden = true;
+  mobileMenuView.hidden = false;
+  mobileMenuView.innerHTML = `<div class="mobile-submenu-header"><button type="button" data-mobile-back>‹</button><strong>${name === 'collections' ? 'Categories' : name === 'brand' ? 'About Ruwa' : 'Products'}</strong><a href="${name === 'collections' ? 'products.html' : name === 'brand' ? 'about.html' : 'products.html'}">View all</a></div>`;
+  const content = panel.cloneNode(true);
+  content.classList.add('mobile-submenu-content');
+  mobileMenuView.appendChild(content);
+  mobileMenuView.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMobileMenu));
+  mobileMenuView.querySelector('[data-mobile-back]')?.addEventListener('click', () => { mobileMenuView.hidden = true; mobileMenuView.replaceChildren(); mobileMenuPrimary.hidden = false; });
+};
 menuToggle?.addEventListener('click', () => {
   const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-  menuToggle.setAttribute('aria-expanded', String(!expanded));
+  if (expanded) closeMobileMenu();
+  else { mobileMenu?.classList.add('is-open'); mobileMenuBackdrop?.classList.add('is-open'); mobileMenu?.setAttribute('aria-hidden', 'false'); document.body.classList.add('mobile-menu-is-open'); menuToggle.setAttribute('aria-expanded', 'true'); }
 });
+document.querySelectorAll('[data-mobile-menu-close]').forEach((element) => element.addEventListener('click', closeMobileMenu));
+document.querySelectorAll('[data-mobile-panel]').forEach((button) => button.addEventListener('click', () => showMobilePanel(button.dataset.mobilePanel)));
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeMobileMenu(); });
 
 document.querySelectorAll('.favorite-button').forEach((button) => {
   button.addEventListener('click', (event) => {
@@ -325,17 +354,24 @@ const carouselViewport = document.querySelector('[data-carousel-viewport]');
 const featuredTrack = document.querySelector('[data-featured-track]');
 const previousButton = document.querySelector('[data-carousel-prev]');
 const nextButton = document.querySelector('[data-carousel-next]');
-const originalFeaturedCards = featuredTrack ? [...featuredTrack.children] : [];
-const featuredCardCount = originalFeaturedCards.length;
+let originalFeaturedCards = featuredTrack ? [...featuredTrack.children] : [];
+let featuredCardCount = originalFeaturedCards.length;
 let carouselIndex = featuredCardCount;
 let dragStartX = 0;
 let dragStartOffset = 0;
 let dragOffset = 0;
 let isDragging = false;
 
-if (featuredTrack && featuredCardCount) {
+function initializeFeaturedCarousel() {
+  if (!featuredTrack) return;
+  originalFeaturedCards = [...featuredTrack.children];
+  featuredCardCount = originalFeaturedCards.length;
+  carouselIndex = featuredCardCount;
+  featuredTrack.style.transform = 'translate3d(0, 0, 0)';
+  if (!featuredCardCount) return;
   featuredTrack.prepend(...originalFeaturedCards.map((card) => card.cloneNode(true)));
   featuredTrack.append(...originalFeaturedCards.map((card) => card.cloneNode(true)));
+  updateCarousel();
 }
 
 const getCarouselStep = () => {
@@ -349,6 +385,8 @@ const updateCarousel = (offset = null) => {
   const x = offset === null ? -(carouselIndex * step) : offset;
   featuredTrack.style.transform = `translate3d(${x}px, 0, 0)`;
 };
+
+initializeFeaturedCarousel();
 
 const resetCarouselPosition = () => {
   if (!featuredTrack || !featuredCardCount) return;
@@ -465,6 +503,13 @@ if (productCatalog) {
   const sortProducts = document.querySelector('[data-sort-products]');
   const resultsCount = document.querySelector('[data-results-count]');
   const clearFilters = document.querySelector('[data-clear-filters]');
+  const filterAside = document.querySelector('.products-filters');
+  const mobileFilterToggle = document.querySelector('[data-mobile-filter-toggle]');
+
+  mobileFilterToggle?.addEventListener('click', () => {
+    const isOpen = filterAside?.classList.toggle('is-open');
+    mobileFilterToggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+  });
 
   const renderCatalog = () => {
     const activeFilters = filterInputs.filter((input) => input.checked);
@@ -557,6 +602,33 @@ ingredientTabs.forEach((tab) => tab.addEventListener('click', () => {
   if (ingredientDescription) ingredientDescription.textContent = ingredientData[index].text;
 }));
 
+const renderRuwaProductAttributes = (product) => {
+  if (!product || !ingredientTabs.length) return;
+  const attributes = product.attributes && typeof product.attributes === 'object' ? product.attributes : {};
+  const labelFor = (key) => String(key).replace(/[_-]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+  const entries = Object.entries(attributes)
+    .filter(([, value]) => value !== null && value !== undefined && String(value).trim() !== '')
+    .map(([name, value]) => ({ name: labelFor(name), text: Array.isArray(value) ? value.join(', ') : String(value), image: ruwaProductImage(product) }));
+  const sharedEntries = [
+    ['Category', product.category],
+    ['Manufacturer / brand', product.manufacturer],
+    ['Pack size / unit', product.pack_size || product.unit_of_sale],
+    ['Product code', product.sku]
+  ].filter(([, value]) => value !== null && value !== undefined && String(value).trim() !== '')
+    .map(([name, value]) => ({ name, text: String(value), image: ruwaProductImage(product) }));
+  const information = [...entries, ...sharedEntries].slice(0, ingredientTabs.length);
+  while (information.length < ingredientTabs.length) information.push({ name: 'Ruwa product information', text: 'Product details and technical information are available from Ruwa Biosciences.', image: ruwaProductImage(product) });
+  ingredientData.splice(0, ingredientData.length, ...information);
+  ingredientTabs.forEach((tab, index) => {
+    tab.dataset.ingredient = String(index);
+    tab.querySelector('span').textContent = information[index].name;
+    tab.hidden = false;
+  });
+  if (ingredientDescription) ingredientDescription.textContent = information[0].text;
+  if (ingredientImage) { ingredientImage.src = information[0].image; ingredientImage.alt = `${product.title} product information`; }
+  document.querySelector('.see-all-link')?.replaceChildren(document.createTextNode('See all product information '), document.createElement('span'));
+};
+
 const productDetails = {
   'body-cream': { name: 'Body Cream', category: 'Skin', price: '$49.00', image: 'https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg', description: 'A rich, deeply moisturizing body cream that hydrates and nourishes your skin. Infused with skin-loving ingredients, it restores softness and elasticity, leaving your skin silky-smooth and replenished.' },
   'eye-serum': { name: 'Eye Serum', category: 'Body', price: '$79.00', image: 'https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg', description: 'A lightweight, brightening serum that smooths the delicate eye area and helps reduce the look of tiredness.' },
@@ -604,18 +676,20 @@ window.renderFavoritesPage = () => {
   if (!grid) return;
   if (count) count.textContent = `${favoriteItems.length} product${favoriteItems.length === 1 ? '' : 's'}`;
   if (empty) empty.hidden = favoriteItems.length > 0;
-  grid.innerHTML = favoriteItems.map((product) => `<article class="catalog-card" data-price="${product.price}"><a class="catalog-image" href="product.html?product=${product.id}"><img src="${product.image}" alt="${product.name}" loading="lazy" /><button class="catalog-favorite is-favorite" type="button" aria-label="Remove ${product.name} from favorites">♥</button></a><div class="catalog-info"><div><h2>${product.name}</h2><p>${product.category}</p></div><strong class="product-price">$${Number(product.price).toFixed(2)}</strong><button class="card-add-to-bag" type="button" data-product-id="${product.id}" data-product-name="${product.name}" data-product-category="${product.category}" data-product-price="${product.price}" data-product-image="${product.image}">Add to bag</button></div></article>`).join('');
+  grid.innerHTML = favoriteItems.map((product) => `<article class="catalog-card" data-product-card data-product-id="${product.id}" data-price="${product.price}"><a class="catalog-image" href="product.html?product=${product.id}"><img src="${product.image}" alt="${product.name}" loading="lazy" /><button class="catalog-favorite is-favorite" type="button" aria-label="Remove ${product.name} from favorites">♥</button></a><div class="catalog-info"><div><h2>${product.name}</h2><p title="${product.category}">${product.category}</p></div><strong class="product-price">${formatMoney(product.price)}</strong><button class="card-add-to-bag" type="button" data-product-id="${product.id}" data-product-name="${product.name}" data-product-category="${product.category}" data-product-price="${product.price}" data-product-image="${product.image}">Add to bag</button></div></article>`).join('');
   grid.querySelectorAll('.catalog-favorite').forEach((button) => button.addEventListener('click', handleFavoriteToggle));
 };
 window.renderFavoritesPage();
 
-const checkoutItems = document.querySelector('[data-checkout-items]');
-const checkoutTotal = document.querySelector('[data-checkout-total]');
-if (checkoutItems && checkoutTotal) {
+const renderRuwaCheckoutSummary = () => {
+  const checkoutItems = document.querySelector('[data-checkout-items]');
+  const checkoutTotal = document.querySelector('[data-checkout-total]');
+  if (!checkoutItems || !checkoutTotal) return;
   const checkoutSubtotal = bagItems.reduce((total, item) => total + item.price * item.quantity, 0);
   checkoutItems.innerHTML = bagItems.length ? bagItems.map((item) => `<div class="checkout-item"><img src="${item.image}" alt="${item.name}" /><div><strong>${item.name}</strong><span>${item.quantity} × ${formatMoney(item.price)}</span></div><b>${formatMoney(item.price * item.quantity)}</b></div>`).join('') : '<p class="checkout-empty">Your bag is empty. Add a product before checking out.</p>';
   checkoutTotal.textContent = formatMoney(checkoutSubtotal);
-}
+};
+renderRuwaCheckoutSummary();
 document.querySelector('[data-mpesa-form]')?.addEventListener('submit', (event) => {
   event.preventDefault();
   const form = event.currentTarget;
@@ -631,3 +705,348 @@ document.querySelectorAll('.recommendation-favorite').forEach((button) => button
   button.classList.toggle('is-favorite');
   button.textContent = button.classList.contains('is-favorite') ? '♥' : '♡';
 }));
+const RUWA_CONTENT_VERSION = '1.0';
+const ruwaImages = [
+  'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=85',
+  'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=85',
+  'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1200&q=85',
+  'https://images.unsplash.com/photo-1583912086096-8c60c8a7f7f8?auto=format&fit=crop&w=1200&q=85'
+];
+const ruwaTextReplacements = new Map([
+  ['All Natural', 'Ruwa Biosciences'], ['ALL NATURAL', 'RUWA BIOSCIENCES'], ['AllNaturalSkin', 'RuwaBiosciences'], ['Perfume Store', 'Ruwa Biosciences'],
+  ['fragrance', 'medical equipment'], ['Fragrance', 'Medical equipment'], ['skincare', 'healthcare supply'], ['Skincare', 'Healthcare supply'],
+  ['skin care', 'healthcare supply'], ['Skin Care', 'Healthcare supply'], ['body care', 'clinic supplies'], ['Body Care', 'Clinic supplies'],
+  ['hair care', 'laboratory supplies'], ['Hair Care', 'Laboratory supplies'], ['scent', 'product specification'], ['Scent', 'Product specification'],
+  ['ingredients', 'quality information'], ['Ingredients', 'Quality information'], ['Shop All', 'Shop Medical Products'], ['Shop all', 'Shop medical products'],
+  ['Stay in the loop', 'Stay informed'], ['Be the first to know about new collections and exclusive offers.', 'Receive product updates and healthcare supply insights.'],
+  ['The next wave of natural skincare.', 'Reliable point-of-care and healthcare supply solutions.'], ['Featured in', 'Healthcare solutions'], ['Follow us', 'Connect with Ruwa'],
+  ['Journal', 'Resources'], ['Brand', 'About Ruwa'], ['Collections', 'Categories'], ['Stores', 'Service areas'], ['Stockists', 'Distributors'], ['Environment', 'Our standards'],
+  ['Body', 'RDT Kits'], ['Skin', 'Laboratory Consumables'], ['Hair', 'POC Equipment'], ['Kits', 'Clinic Infrastructure'], ['New Arrivals', 'New products'],
+  ['Bestsellers', 'Popular products'], ['On Sale', 'Available products'], ['Gift Cards', 'Request a quote'], ['Cream', 'Diagnostic kit'], ['Lotion', 'Meter'],
+  ['Cleanser', 'Consumable'], ['Oil', 'Equipment'], ['Serum', 'Reagent'], ['Prices shown in USD.', 'Prices shown in Kenyan Shillings (KES).'], ['USD', 'KES'],
+  ['US', 'KE'], ['Shopify by Framer Commerce', 'Ruwa Biosciences'], ['Made by ena', 'Nairobi, Kenya']
+]);
+const ruwaProductReplacements = new Map([
+  ['Body Lotion', 'Malaria PF/PAN'], ['Radiant Cream', 'H. Pylori Ag'], ['Nourish Hair Oil', 'Urinalysis Strips (10 Para)'], ['Daily Cleanser', 'Chlamydia Kits'],
+  ['Eye Serum', 'Mission Hb Machine'], ['Hair Serum', 'Sinocare Glucose Test Strips'], ['Eye Repair', 'Hepatitis B Strips'], ['Scalp Detox', 'VDRL'],
+  ['Body Cream', 'Sinocare Blood Sugar Machine'], ['Body Wash', 'Red Top Vacutainer Tubes'], ['Body Serum', 'PSA Cassette'], ['Hair Oil', 'Fetal Doppler (JPD 100E)'],
+  ['Body Essentials Kit', 'Blood Grouping Set'], ['Hair Care Kit', 'Laboratory Consumables Pack'], ['Body Milk', 'Blood Bags (Single)'], ['Brightening Serum', 'Gonorrhea Kits'],
+  ['Scalp Cleanser', 'Stool Containers'], ['Skin Ritual Kit', 'Clinic Starter Equipment Kit'], ['Hand Cream', 'Yellow Pipette Tips'], ['Body Oil', 'Blue Pipette Tips']
+]);
+const replaceRuwaText = (value) => {
+  let result = value;
+  ruwaProductReplacements.forEach((replacement, original) => { result = result.replaceAll(original, replacement); });
+  ruwaTextReplacements.forEach((replacement, original) => { result = result.replaceAll(original, replacement); });
+  return result;
+};
+const applyRuwaContent = () => {
+  document.title = replaceRuwaText(document.title);
+  document.querySelectorAll('.site-header .brand').forEach((brand) => {
+    if (brand.querySelector('.brand-logo')) return;
+    brand.textContent = '';
+    const logo = document.createElement('img');
+    logo.className = 'brand-logo';
+    logo.src = 'assets/Logo/Ruwa%20Bioscience%20logo.png';
+    logo.alt = 'Ruwa Biosciences';
+    brand.appendChild(logo);
+  });
+  document.querySelectorAll('.site-footer').forEach((footer) => {
+    if (footer.querySelector('.footer-wordmark')) return;
+    const wordmark = document.createElement('div');
+    wordmark.className = 'footer-wordmark';
+    wordmark.setAttribute('aria-label', 'Ruwa Biosciences');
+    wordmark.innerHTML = '<span class="footer-wordmark__ruwa">Ruwa<sup>™</sup></span> <span class="footer-wordmark__biosciences">Biosciences</span>';
+    const footerBottom = footer.querySelector('.footer-bottom');
+    if (footerBottom) footerBottom.before(wordmark);
+    else footer.appendChild(wordmark);
+  });
+  document.querySelectorAll('meta[name="description"], [aria-label], [alt], [title], input[placeholder]').forEach((element) => {
+    ['content', 'aria-label', 'alt', 'title', 'placeholder'].forEach((attribute) => { if (element.hasAttribute(attribute)) element.setAttribute(attribute, replaceRuwaText(element.getAttribute(attribute))); });
+  });
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach((node) => { if (node.parentElement && !['SCRIPT', 'STYLE'].includes(node.parentElement.tagName)) node.nodeValue = replaceRuwaText(node.nodeValue).replace(/\$(\d[\d,.]*)/g, 'KES $1'); });
+  document.querySelectorAll('img').forEach((image, index) => {
+    const productMedia = image.closest('.admin-product-card, .catalog-card, .product-card, .featured-card, .feature-product-card, .recommendation-card, .mini-product, .environment-mini-product, .bag-item, .checkout-item, [data-favorites-grid], [data-checkout-items], .product-detail');
+    if (!productMedia && !image.src.includes('/assets/')) image.src = ruwaImages[index % ruwaImages.length];
+  });
+  const socialImages = [
+    ['assets/Medical%20shop/medical-shop.png', 'Ruwa Biosciences medical equipment display'],
+    ['assets/categories/Laboratory%20consumables.jpg', 'Laboratory consumables and sample collection supplies'],
+    ['assets/categories/POC.jpg', 'Point-of-care diagnostic equipment and testing supplies'],
+    ['assets/categories/RDT%20clinic%20infrasctrructures.jpg', 'Rapid diagnostic testing and clinic infrastructure supplies'],
+    ['assets/shop%20healthcare%20supply/Gemini_Generated_Image_zgkcbazgkcbazgkc.jpg', 'Healthcare supply and point-of-care service environment']
+  ];
+  document.querySelectorAll('.gallery-grid .gallery-item').forEach((item, index) => {
+    const [src, alt] = socialImages[index] || socialImages[0];
+    const image = item.querySelector('img');
+    if (image) { image.src = src; image.alt = alt; }
+    item.setAttribute('aria-label', index === 0 ? 'Follow Ruwa Biosciences on Instagram' : `View Ruwa Biosciences healthcare post ${index + 1}`);
+  });
+  const stayInformedVideos = [
+    'assets/stay%20informed/Teal_test_kit_floating_upwards_20260924083918.mp4',
+    'assets/stay%20informed/Medical_testing_equipment_and_vials_20260924114432.mp4'
+  ];
+  const pageSeed = `${window.location.pathname}${window.location.search}`;
+  const pageHash = [...pageSeed].reduce((total, character) => total + character.charCodeAt(0), 0);
+  const stayInformedVideoIndex = pageHash % stayInformedVideos.length;
+  document.querySelectorAll('.newsletter-background').forEach((media) => {
+    let video = media;
+    if (media.tagName !== 'VIDEO') {
+      video = document.createElement('video');
+      video.className = media.className;
+      video.setAttribute('aria-label', 'Ruwa healthcare testing equipment');
+      media.replaceWith(video);
+    }
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.src = stayInformedVideos[stayInformedVideoIndex];
+    video.load();
+  });
+  document.querySelectorAll('video').forEach((video) => { if (!video.getAttribute('src')) video.poster = ruwaImages[0]; });
+  const heroHeading = document.querySelector('.hero h1');
+  if (heroHeading) heroHeading.innerHTML = 'Point-of-care<br class="desktop-break" /> solutions for better care';
+  const heroEyebrow = document.querySelector('.hero .eyebrow');
+  if (heroEyebrow) heroEyebrow.textContent = 'Diagnostics & medical equipment';
+  const aboutHeading = document.querySelector('#about-title');
+  if (aboutHeading) aboutHeading.textContent = 'Reliable medical supply solutions for clinics, laboratories, hospitals, and healthcare professionals.';
+  document.querySelectorAll('a[href^="mailto:"]').forEach((link) => { link.href = 'mailto:ruwabiosciences@gmail.com'; link.textContent = 'ruwabiosciences@gmail.com'; });
+  document.querySelectorAll('a[href^="tel:"]').forEach((link) => { link.href = 'tel:+254796755202'; link.textContent = '0796 755 202'; });
+};
+applyRuwaContent();
+
+const applyRuwaProductPanelLinks = () => {
+  const panelGroups = document.querySelectorAll('.mega-panel--products .product-menu-links > div');
+  const groups = [
+    [
+      ['All Products', 'products.html'],
+      ['New products', 'products.html?collection=new'],
+      ['Popular products', 'products.html?collection=bestseller'],
+      ['Available products', 'products.html?collection=available'],
+      ['Clinic Infrastructure', 'products.html?category=clinic-infrastructure']
+    ],
+    [
+      ['RDT Kits & Reagents', 'products.html?category=rdt-kits'],
+      ['Laboratory Consumables', 'products.html?category=laboratory-consumables'],
+      ['POC Equipment', 'products.html?category=poc-equipment'],
+      ['Clinic Infrastructure', 'products.html?category=clinic-infrastructure']
+    ],
+    [
+      ['Diagnostic Kits', 'products.html?category=rdt-kits'],
+      ['Meters', 'products.html?category=poc-equipment'],
+      ['Consumables', 'products.html?category=laboratory-consumables'],
+      ['Clinic Equipment', 'products.html?category=clinic-infrastructure'],
+      ['Reagents', 'products.html?category=rdt-kits']
+    ]
+  ];
+  panelGroups.forEach((group, groupIndex) => {
+    (groups[groupIndex] || []).forEach(([label, href], index) => {
+      const link = group.querySelectorAll('a')[index];
+      if (link) { link.textContent = label; link.href = href; }
+    });
+  });
+};
+applyRuwaProductPanelLinks();
+
+/* Database-backed storefront catalogue. Static starter cards are replaced once
+   active products are loaded from Supabase; the existing CSS and interactions remain. */
+const ruwaSlug = (value = '') => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+const escapeRuwaHtml = (value = '') => String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[character]));
+const ruwaProductImage = (product) => product.image_urls?.[0] || product.image_url || 'assets/categories/POC.jpg';
+const ruwaCategorySlug = (category = '') => {
+  if (category.toLowerCase().includes('rdt')) return 'rdt-kits';
+  if (category.toLowerCase().includes('laboratory')) return 'laboratory-consumables';
+  if (category.toLowerCase().includes('clinic')) return 'clinic-infrastructure';
+  return 'poc-equipment';
+};
+const ruwaProductCard = (product, className = 'catalog-card') => {
+  const id = product.id || ruwaSlug(product.title);
+  const tags = product.product_tags || [];
+  const badge = tags.includes('new') ? '<span class="catalog-badge">New</span>' : tags.includes('featured') ? '<span class="catalog-badge">Featured</span>' : '';
+  const image = escapeRuwaHtml(ruwaProductImage(product));
+  const title = escapeRuwaHtml(product.title);
+  const category = escapeRuwaHtml(product.category || 'Medical product');
+  const price = Number(product.price || 0).toFixed(2);
+  const imageClass = className === 'catalog-card' ? 'catalog-image' : className === 'featured-card' ? 'featured-image' : className === 'recommendation-card' ? 'recommendation-image' : 'product-image-wrapper';
+  const favoriteClass = className === 'catalog-card' ? 'catalog-favorite' : className === 'recommendation-card' ? 'recommendation-favorite' : 'favorite-button';
+  const infoClass = className === 'catalog-card' ? 'catalog-info' : className === 'featured-card' ? 'featured-info' : className === 'recommendation-card' ? 'recommendation-info' : 'product-info';
+  return `<article class="${className}" data-product-card data-product-id="${escapeRuwaHtml(id)}" data-collection="${escapeRuwaHtml(tags.join(' '))}" data-category="${ruwaCategorySlug(product.category)}" data-type="${ruwaCategorySlug(product.category)}" data-price="${price}"><a class="${imageClass}" href="product.html?product=${encodeURIComponent(id)}" aria-label="View ${title}"><img src="${image}" alt="${title}" loading="lazy" />${badge}<button class="${favoriteClass}" type="button" aria-label="Add ${title} to favorites">♡</button></a><div class="${infoClass}"><div><${className === 'catalog-card' ? 'h2' : 'h3'}>${title}</${className === 'catalog-card' ? 'h2' : 'h3'}><p title="${category}">${category}</p></div><strong>${product.currency || 'KES'} ${price}</strong><button class="card-add-to-bag" type="button" data-product-id="${escapeRuwaHtml(id)}" data-product-name="${title}" data-product-category="${category}" data-product-price="${price}" data-product-image="${image}">Add to bag</button></div></article>`;
+};
+const renderRuwaFeatureProduct = (products) => {
+  const card = document.querySelector('[data-db-feature-product]');
+  if (!card) return;
+  const hasUploadedImage = (item) => Boolean(item.image_urls?.[0] || item.image_url);
+  const product = products.find((item) => Array.isArray(item.product_tags) && item.product_tags.includes('featured') && hasUploadedImage(item)) || products.find(hasUploadedImage);
+  if (!product) return;
+  const id = product.id || ruwaSlug(product.title);
+  const image = ruwaProductImage(product);
+  const price = Number(product.price || 0).toFixed(2);
+  card.dataset.productId = id;
+  card.dataset.price = price;
+  card.dataset.category = ruwaCategorySlug(product.category);
+  card.querySelector('.feature-product-image').href = `product.html?product=${encodeURIComponent(id)}`;
+  card.querySelector('.feature-product-badge').textContent = product.product_tags?.includes('new') ? 'New' : 'Featured';
+  const productImage = card.querySelector('.feature-product-image img');
+  productImage.src = image;
+  productImage.alt = `${product.title} medical product`;
+  card.querySelector('.feature-product-image .favorite-button').setAttribute('aria-label', `Add ${product.title} to favorites`);
+  card.querySelector('.feature-product-info h3').textContent = product.title || 'Healthcare product';
+  card.querySelector('.feature-product-info p').textContent = product.category || 'Medical product';
+  card.querySelector('.feature-product-info strong').textContent = `${product.currency || 'KES'} ${price}`;
+};
+const renderRuwaMiniFeature = (products) => {
+  const card = document.querySelector('[data-db-mini-feature]');
+  if (!card) return;
+  const hasUploadedImage = (item) => Boolean(item.image_urls?.[0] || item.image_url);
+  const product = products.find((item) => Array.isArray(item.product_tags) && item.product_tags.includes('featured') && hasUploadedImage(item)) || products.find(hasUploadedImage);
+  if (!product) return;
+  const id = product.id || ruwaSlug(product.title);
+  card.href = `product.html?product=${encodeURIComponent(id)}`;
+  const image = card.querySelector('img');
+  if (image) { image.src = ruwaProductImage(product); image.alt = `${product.title} medical product`; }
+  card.querySelector('h3').textContent = product.title || 'Healthcare product';
+  card.querySelector('p').textContent = product.category || 'Medical product';
+  card.querySelector('strong').textContent = `${product.currency || 'KES'} ${Number(product.price || 0).toFixed(2)}`;
+};
+const renderRuwaCategoryPanel = (products) => {
+  const categoryCards = document.querySelectorAll('.mega-panel--collections .panel-cards--four .panel-card');
+  const categories = [
+    ['RDT Kits & Reagents', 'rdt-kits'],
+    ['Laboratory Consumables', 'laboratory-consumables'],
+    ['POC Equipment', 'poc-equipment'],
+    ['Clinic Infrastructure', 'clinic-infrastructure']
+  ];
+  categoryCards.forEach((card, index) => {
+    const [label, slug] = categories[index] || categories[0];
+    const product = products.find((item) => ruwaCategorySlug(item.category) === slug && (item.image_urls?.[0] || item.image_url));
+    card.href = `products.html?category=${slug}`;
+    const text = card.querySelector('span');
+    if (text) text.textContent = label;
+    const image = card.querySelector('img');
+    if (image && product) { image.src = ruwaProductImage(product); image.alt = `${product.title} in ${label}`; }
+  });
+};
+const ensureRuwaSupabase = () => new Promise((resolve, reject) => {
+  if (window.supabaseRequest) return resolve();
+  const existing = document.querySelector('script[data-ruwa-supabase]');
+  if (existing) { existing.addEventListener('load', resolve, { once: true }); existing.addEventListener('error', reject, { once: true }); return; }
+  const configScript = document.createElement('script');
+  configScript.src = 'supabase-config.js';
+  configScript.dataset.ruwaSupabase = 'true';
+  configScript.onload = resolve;
+  configScript.onerror = () => reject(new Error('Could not load Supabase configuration.'));
+  document.head.appendChild(configScript);
+});
+const showRuwaCatalogMessage = (message) => {
+  document.querySelectorAll('[data-catalog-grid], [data-product-grid], [data-featured-track], .recommendations-grid').forEach((grid) => {
+    if (grid) grid.innerHTML = `<p class="catalog-empty">${escapeRuwaHtml(message)}</p>`;
+  });
+};
+const renderRuwaDatabaseProducts = (products) => {
+  window.__ruwaProducts = products;
+  const syncSavedItems = (items) => {
+    items.forEach((saved) => {
+      const current = products.find((product) => product.id === saved.id || ruwaSlug(product.title) === saved.id || product.title === saved.name);
+      if (!current) return;
+      saved.id = current.id;
+      saved.name = current.title;
+      saved.category = current.category;
+      saved.price = Number(current.price || 0);
+      saved.image = ruwaProductImage(current);
+    });
+  };
+  syncSavedItems(favoriteItems);
+  syncSavedItems(bagItems);
+  saveFavorites();
+  saveBag();
+  renderBag();
+  renderRuwaCheckoutSummary();
+  window.renderFavoritesPage?.();
+  const productsHero = document.querySelector('[data-db-products-hero]');
+  const requestedCategory = new URLSearchParams(window.location.search).get('category') || new URLSearchParams(window.location.search).get('type');
+  const heroProduct = products.find((item) => requestedCategory && ruwaCategorySlug(item.category) === requestedCategory && (item.image_urls?.[0] || item.image_url)) || products.find((item) => item.image_urls?.[0] || item.image_url);
+  if (productsHero && heroProduct) {
+    productsHero.src = ruwaProductImage(heroProduct);
+    productsHero.alt = `${heroProduct.title} medical product`;
+  }
+  const categoryLabels = { 'rdt-kits': 'RDT Kits & Reagents', 'laboratory-consumables': 'Laboratory Consumables', 'poc-equipment': 'POC Equipment', 'clinic-infrastructure': 'Clinic Infrastructure' };
+  const introHeading = document.querySelector('#shop-all-heading');
+  const introCopy = document.querySelector('.shop-all-copy p');
+  if (introHeading) introHeading.textContent = categoryLabels[requestedCategory] || 'Shop Medical Products';
+  if (introCopy) introCopy.textContent = requestedCategory && categoryLabels[requestedCategory] ? `Browse ${categoryLabels[requestedCategory].toLowerCase()} supplied by Ruwa Biosciences.` : 'Point-of-care diagnostics, laboratory consumables, and clinic equipment for healthcare professionals.';
+  renderRuwaFeatureProduct(products);
+  renderRuwaMiniFeature(products);
+  renderRuwaCategoryPanel(products);
+  searchProducts.splice(0, searchProducts.length, ...products.map((product) => ({ id: product.id, name: product.title, category: product.category, price: `${product.currency || 'KES'} ${Number(product.price || 0).toFixed(2)}`, image: ruwaProductImage(product) })));
+  const catalogGrid = document.querySelector('[data-catalog-grid]');
+  if (catalogGrid) catalogGrid.innerHTML = products.map((product) => ruwaProductCard(product)).join('');
+  const productGrid = document.querySelector('[data-product-grid]');
+  if (productGrid) productGrid.innerHTML = products.slice(0, 4).map((product) => ruwaProductCard(product, 'product-card')).join('');
+  const featuredTrack = document.querySelector('[data-featured-track]');
+  if (featuredTrack) {
+    const taggedFeatured = products.filter((product) => Array.isArray(product.product_tags) && product.product_tags.includes('featured'));
+    const featuredProducts = (taggedFeatured.length ? taggedFeatured : products).slice(0, 6);
+    featuredTrack.innerHTML = featuredProducts.map((product) => ruwaProductCard(product, 'featured-card')).join('');
+    initializeFeaturedCarousel();
+  }
+  document.querySelectorAll('.recommendations-grid').forEach((recommendations) => { recommendations.innerHTML = products.slice(0, 4).map((product) => ruwaProductCard(product, 'recommendation-card')).join(''); });
+  document.querySelectorAll('.products-filters input[name="category"], .products-filters input[name="type"]').forEach((input) => {
+    const labels = { 'rdt-kits': 'RDT Kits & Reagents', 'laboratory-consumables': 'Laboratory Consumables', 'poc-equipment': 'POC Equipment', 'clinic-infrastructure': 'Clinic Infrastructure' };
+    input.value = input.value in labels ? input.value : ruwaCategorySlug(input.value);
+    const label = input.closest('label'); if (label) label.lastChild.textContent = ` ${labels[input.value] || input.value}`;
+  });
+  const count = document.querySelector('[data-results-count]'); if (count) count.textContent = `${products.length} products`;
+  const filterDatabaseCatalog = () => {
+    const selected = [...document.querySelectorAll('.products-filters input:checked')].map((input) => input.value);
+    const sort = document.querySelector('[data-sort-products]')?.value || 'featured';
+    const cards = [...(document.querySelector('[data-catalog-grid]')?.querySelectorAll('.catalog-card') || [])];
+    const ordered = cards.filter((card) => !selected.length || selected.some((value) => value === 'available' || value === 'all' || value === card.dataset.category || value === card.dataset.type || card.dataset.collection.split(' ').includes(value))).sort((a, b) => sort === 'low' ? Number(a.dataset.price) - Number(b.dataset.price) : sort === 'high' ? Number(b.dataset.price) - Number(a.dataset.price) : sort === 'name' ? a.querySelector('h2').textContent.localeCompare(b.querySelector('h2').textContent) : cards.indexOf(a) - cards.indexOf(b));
+    cards.forEach((card) => { card.hidden = true; }); ordered.forEach((card) => { card.hidden = false; document.querySelector('[data-catalog-grid]').appendChild(card); });
+    if (count) count.textContent = `${ordered.length} products`;
+  };
+  document.querySelectorAll('.products-filters input').forEach((input) => input.addEventListener('change', filterDatabaseCatalog));
+  document.querySelector('[data-sort-products]')?.addEventListener('change', filterDatabaseCatalog);
+  document.querySelector('[data-clear-filters]')?.addEventListener('click', () => { document.querySelectorAll('.products-filters input').forEach((input) => { input.checked = false; }); filterDatabaseCatalog(); });
+  const requestedFilter = new URLSearchParams(window.location.search).get('category') || new URLSearchParams(window.location.search).get('type') || new URLSearchParams(window.location.search).get('collection');
+  if (requestedFilter) {
+    filterAside?.classList.add('is-open');
+    mobileFilterToggle?.setAttribute('aria-expanded', 'true');
+    const matchingInput = [...document.querySelectorAll('.products-filters input')].find((input) => input.value === requestedFilter);
+    if (matchingInput) { matchingInput.checked = true; filterDatabaseCatalog(); }
+  }
+  document.querySelectorAll('.catalog-card, .product-card, .featured-card, .recommendation-card, .feature-product-card').forEach((card) => {
+    card.querySelectorAll('.catalog-favorite, .favorite-button, .recommendation-favorite').forEach((button) => button.addEventListener('click', handleFavoriteToggle));
+  });
+};
+const renderRuwaProductDetail = (products) => {
+  const key = new URLSearchParams(window.location.search).get('product');
+  if (!key || !document.querySelector('.product-detail')) return;
+  const product = products.find((item) => item.id === key || ruwaSlug(item.title) === key);
+  if (!product) { document.querySelector('#product-title')?.replaceChildren(document.createTextNode('Product unavailable')); return; }
+  const image = ruwaProductImage(product);
+  const title = document.querySelector('#product-title'); const category = document.querySelector('.product-detail-category'); const price = document.querySelector('.product-detail-heading strong'); const description = document.querySelector('.product-description');
+  if (title) title.textContent = product.title;
+  if (category) category.textContent = product.category;
+  if (price) price.textContent = `${product.currency || 'KES'} ${Number(product.price || 0).toFixed(2)}`;
+  if (description) description.textContent = product.description || product.short_description || 'Product information available from Ruwa Biosciences.';
+  renderRuwaProductAttributes(product);
+  document.title = `${product.title} — Ruwa Biosciences`;
+  document.querySelectorAll('.product-image-strip img, .product-thumb img').forEach((element) => { element.src = image; element.alt = `${product.title} product image`; });
+};
+const loadRuwaDatabaseProducts = async () => {
+  try {
+    await ensureRuwaSupabase();
+    const products = await window.supabaseRequest('products?select=*&is_active=eq.true&order=created_at.desc');
+    renderRuwaDatabaseProducts(products || []);
+    renderRuwaProductDetail(products || []);
+    document.documentElement.classList.remove('ruwa-data-pending');
+  } catch (error) {
+    console.error(error);
+    document.documentElement.classList.remove('ruwa-data-pending');
+    showRuwaCatalogMessage('The Ruwa catalogue is currently unavailable. Please run the Supabase products migration or try again later.');
+  }
+};
+loadRuwaDatabaseProducts();

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>document.documentElement.classList.add('ruwa-data-pending');</script>
     <meta name="description" content="Shop all natural skincare essentials from All Natural." />
     <title>Shop All — All Natural</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,6 +13,7 @@
   </head>
   <body class="products-page">
     <header class="site-header products-header">
+      <a class="brand brand--mobile" href="index.html" aria-label="Ruwa Biosciences home">Ruwa Biosciences<sup>™</sup></a>
       <nav class="site-nav site-nav--left" aria-label="Primary navigation">
         <div class="nav-item"><a class="nav-trigger" href="#collections" data-panel="collections">Collections</a></div>
         <div class="nav-item"><a class="nav-trigger is-current" href="products.html" data-panel="products">Products</a></div>
@@ -22,6 +24,7 @@
       <nav class="site-nav site-nav--right" aria-label="Utility navigation">
         <a href="#account">Account</a><a href="#favorites">Favorites</a><a href="#search">Search</a><a href="#bag">Bag (0)</a>
       </nav>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
       <div class="mega-panels" aria-label="Navigation details">
         <section class="mega-panel mega-panel--collections" data-panel-content="collections" aria-label="Collections">
           <div class="panel-cards panel-cards--four">
@@ -46,39 +49,39 @@
       <section class="shop-all-section" aria-labelledby="shop-all-heading">
         <div class="shop-all-copy">
           <div>
-            <h1 id="shop-all-heading">Shop All</h1>
-            <p>Skincare that works in harmony with your skin. Find the perfect essentials for your routine.</p>
+            <h1 id="shop-all-heading">Shop Medical Products</h1>
+            <p>Point-of-care diagnostics, laboratory consumables, and clinic equipment for healthcare professionals.</p>
           </div>
         </div>
         <div class="shop-all-image">
-          <img src="https://framerusercontent.com/images/eqgroJMQvwMy92wfars1DTFBta8.jpg" alt="Shop All Skincare" />
+          <img src="assets/categories/POC.jpg" alt="Ruwa point-of-care medical product" data-db-products-hero />
         </div>
       </section>
 
       <section class="products-listing" aria-label="All products">
         <aside class="products-filters" aria-label="Product filters">
-          <div class="filter-heading"><span>Filter (0)</span><button type="button" data-clear-filters>Clear</button></div>
+          <div class="filter-heading"><button class="filter-toggle" type="button" data-mobile-filter-toggle aria-expanded="false"><span>Filter (0)</span><span aria-hidden="true">⌄</span></button><button type="button" data-clear-filters>Clear</button></div>
           <div class="filter-group">
             <button class="filter-group__title" type="button" aria-expanded="true">Collections <span>⌃</span></button>
-            <label><input type="checkbox" name="collection" value="new" /> New Arrivals</label>
-            <label><input type="checkbox" name="collection" value="bestsellers" /> Bestsellers</label>
-            <label><input type="checkbox" name="collection" value="sale" /> On Sale</label>
-            <label><input type="checkbox" name="collection" value="kits" /> Kits</label>
+            <label><input type="checkbox" name="collection" value="new" /> New products</label>
+            <label><input type="checkbox" name="collection" value="bestseller" /> Popular products</label>
+            <label><input type="checkbox" name="collection" value="available" /> Available products</label>
+            <label><input type="checkbox" name="collection" value="all" /> All products</label>
             <label><input type="checkbox" name="collection" value="giftcards" /> Giftcards</label>
           </div>
           <div class="filter-group">
             <button class="filter-group__title" type="button" aria-expanded="true">Category <span>⌃</span></button>
-            <label><input type="checkbox" name="category" value="body" /> Body</label>
-            <label><input type="checkbox" name="category" value="skin" /> Skin</label>
-            <label><input type="checkbox" name="category" value="hair" /> Hair</label>
+            <label><input type="checkbox" name="category" value="rdt-kits" /> RDT Kits &amp; Reagents</label>
+            <label><input type="checkbox" name="category" value="laboratory-consumables" /> Laboratory Consumables</label>
+            <label><input type="checkbox" name="category" value="poc-equipment" /> POC Equipment</label>
+            <label><input type="checkbox" name="category" value="clinic-infrastructure" /> Clinic Infrastructure</label>
           </div>
           <div class="filter-group">
             <button class="filter-group__title" type="button" aria-expanded="true">Type <span>⌄</span></button>
-            <label><input type="checkbox" name="type" value="cream" /> Cream</label>
-            <label><input type="checkbox" name="type" value="lotion" /> Lotion</label>
-            <label><input type="checkbox" name="type" value="cleanser" /> Cleanser</label>
-            <label><input type="checkbox" name="type" value="oil" /> Oil</label>
-            <label><input type="checkbox" name="type" value="serum" /> Serum</label>
+            <label><input type="checkbox" name="type" value="rdt-kits" /> RDT Kits &amp; Reagents</label>
+            <label><input type="checkbox" name="type" value="laboratory-consumables" /> Laboratory Consumables</label>
+            <label><input type="checkbox" name="type" value="poc-equipment" /> POC Equipment</label>
+            <label><input type="checkbox" name="type" value="clinic-infrastructure" /> Clinic Infrastructure</label>
           </div>
         </aside>
 

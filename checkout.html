@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Complete your All Natural order with M-Pesa." />
+    <title>Checkout — All Natural</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body class="checkout-page">
+    <header class="checkout-header">
+      <a class="checkout-back" href="index.html">← Back to shop</a>
+      <a class="checkout-brand" href="index.html">All Natural<sup>™</sup></a>
+      <span class="checkout-secure">Secure checkout</span>
+    </header>
+    <main class="checkout-main">
+      <section class="checkout-intro">
+        <p class="checkout-kicker">Complete your order</p>
+        <h1>Checkout</h1>
+        <p>Pay simply and securely with M-Pesa.</p>
+      </section>
+      <div class="checkout-layout">
+        <section class="checkout-card checkout-payment-card" aria-labelledby="mpesa-title">
+          <div class="checkout-card-heading"><span class="checkout-step">01</span><div><p class="checkout-label">Payment method</p><h2 id="mpesa-title">M-Pesa</h2></div><span class="mpesa-mark">M</span></div>
+          <div class="checkout-mpesa-note"><strong>Pay with M-Pesa</strong><span>Enter your Safaricom number and we’ll send an STK push to your phone.</span></div>
+          <form class="mpesa-form" data-mpesa-form>
+            <label>Full name<input type="text" name="name" placeholder="Your name" autocomplete="name" required /></label>
+            <label>M-Pesa phone number<div class="phone-input"><span>+254</span><input type="tel" name="phone" placeholder="712 345 678" inputmode="tel" autocomplete="tel" pattern="[0-9 ]{9,}" required /></div></label>
+            <p class="mpesa-form-help">Use the number registered to your M-Pesa account.</p>
+            <button class="mpesa-submit" type="submit">Pay with M-Pesa <span>↗</span></button>
+            <p class="mpesa-success" data-mpesa-success hidden>Check your phone and approve the M-Pesa prompt to complete your order.</p>
+          </form>
+        </section>
+        <aside class="checkout-card checkout-summary-card" aria-labelledby="summary-title">
+          <div class="checkout-card-heading"><span class="checkout-step">02</span><div><p class="checkout-label">Your order</p><h2 id="summary-title">Order summary</h2></div></div>
+          <div class="checkout-items" data-checkout-items></div>
+          <div class="checkout-total"><span>Total</span><strong data-checkout-total>$0.00</strong></div>
+          <p class="checkout-currency">Prices shown in USD. M-Pesa payment will be processed in Kenyan Shillings at checkout.</p>
+        </aside>
+      </div>
+      <section class="recommendations-section checkout-recommendations" aria-labelledby="checkout-recommendations-heading">
+        <div class="recommendations-header"><h2 id="checkout-recommendations-heading">You might also like</h2><a href="products.html">Shop all <span>↗</span></a></div>
+        <div class="recommendations-grid">
+          <article class="recommendation-card"><a class="recommendation-image" href="product.html?product=body-cream"><img src="https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg" alt="Body Cream" loading="lazy" /><button class="recommendation-favorite" type="button" aria-label="Add Body Cream to favorites">♡</button></a><div><h3>Body Cream</h3><p>Skin</p><strong>$49.00</strong></div></article>
+          <article class="recommendation-card"><a class="recommendation-image" href="product.html?product=body-wash"><img src="https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg" alt="Body Wash" loading="lazy" /><span class="recommendation-badge">New</span><button class="recommendation-favorite" type="button" aria-label="Add Body Wash to favorites">♡</button></a><div><h3>Body Wash</h3><p>Body</p><strong>$49.00</strong></div></article>
+          <article class="recommendation-card"><a class="recommendation-image" href="product.html?product=body-serum"><img src="https://framerusercontent.com/images/STJc5naSqcZ3mkXNvWbqyjqlDHg.jpg" alt="Body Serum" loading="lazy" /><span class="recommendation-badge">-30%</span><button class="recommendation-favorite" type="button" aria-label="Add Body Serum to favorites">♡</button></a><div><h3>Body Serum</h3><p>Skin</p><strong><del>$69.00</del> $48.30</strong></div></article>
+          <article class="recommendation-card"><a class="recommendation-image" href="product.html?product=hair-oil"><img src="https://framerusercontent.com/images/eqgroJMQvwMy92wfars1DTFBta8.jpg" alt="Hair Oil" loading="lazy" /><button class="recommendation-favorite" type="button" aria-label="Add Hair Oil to favorites">♡</button></a><div><h3>Hair Oil</h3><p>Hair</p><strong>$49.00</strong></div></article>
+        </div>
+      </section>
+      <section class="contact-details checkout-contact" aria-labelledby="checkout-contact-title"><p id="checkout-contact-title">Contact us</p><div class="contact-detail-grid"><div class="contact-detail"><h2>Customer Service</h2><a href="mailto:care@allnatural.com">care@allnatural.com</a></div><div class="contact-detail"><h2>WhatsApp</h2><a href="https://wa.me/254700000000">+254 700 000 000</a></div><div class="contact-detail"><h2>Hours</h2><span>Monday - Friday<br />8am - 4pm</span></div></div></section>
+      <section class="social-gallery-section checkout-social" aria-labelledby="checkout-social-heading"><div class="gallery-header"><span class="gallery-label">Follow us</span><h2 id="checkout-social-heading">@AllNaturalSkin</h2></div><div class="gallery-grid"><a class="gallery-item gallery-item--instagram" href="#instagram" aria-label="Follow All Natural on Instagram"><img src="https://framerusercontent.com/images/UNMelRpSKvkc93Tbg94BjYDftA.jpg" alt="All Natural social post" loading="lazy" /><span aria-hidden="true">◎</span></a><a class="gallery-item" href="#instagram"><img src="https://framerusercontent.com/images/qHDHrdGlxMFFTScjfSchORJZg.png?scale-down-to=512" alt="All Natural social post" loading="lazy" /></a><a class="gallery-item" href="#instagram"><img src="https://framerusercontent.com/images/HYXb45BcTVXrkHmHMfNABkTklA.jpg" alt="All Natural social post" loading="lazy" /></a><a class="gallery-item" href="#instagram"><img src="https://framerusercontent.com/images/E95yNJ094Ffkgt98Ck3vHYlWIA.jpg" alt="All Natural social post" loading="lazy" /></a></div></section>
+    </main>
+    <footer class="site-footer"><div class="footer-main"><div class="footer-brand"><a class="footer-logo" href="index.html">All Natural<sup>™</sup></a><p>The next wave of natural skincare.</p><div class="footer-socials" aria-label="Social media links"><a href="#instagram" aria-label="Instagram">◎</a><a href="#x" aria-label="X">𝕏</a><a href="#facebook" aria-label="Facebook">●</a><a href="#linkedin" aria-label="LinkedIn">in</a></div></div><nav class="footer-nav" aria-label="Footer navigation"><div class="footer-column"><h3>Shop</h3><a href="products.html">All Products</a><a href="products.html">Body</a><a href="products.html">Skin</a><a href="products.html">Hair</a><a href="products.html">Kits</a></div><div class="footer-column"><h3>Company</h3><a href="about.html">About us</a><a href="values.html">Values</a><a href="ingredients.html">Ingredients</a><a href="environment.html">Environment</a><a href="index.html#journal">Journal</a></div><div class="footer-column"><h3>Other</h3><a href="faqs.html">FAQ’s</a><a href="stores.html">Stores</a><a href="stockists.html">Stockists</a><a href="contact.html">Contact us</a></div><div class="footer-column"><h3>Legal</h3><a href="#terms">Terms of Service</a><a href="#returns">Return Policy</a><a href="#privacy">Privacy Policy</a></div></nav></div><div class="footer-bottom"><span class="footer-country">🇰🇪 &nbsp;KE</span><div class="footer-credit"><span>©2026 ALL NATURAL</span><span>Made by ena</span><span>Shopify by Framer Commerce</span></div><div class="footer-payments" aria-label="Payment method"><span>M-Pesa</span></div></div></footer>
+  </body>
+</html>

@@ -3,6 +3,13 @@
   "rewrites": [
     { "source": "/products", "destination": "/products.html" },
     { "source": "/product", "destination": "/product.html" },
-    { "source": "/about", "destination": "/about.html" }
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/values", "destination": "/values.html" },
+    { "source": "/ingredients", "destination": "/ingredients.html" },
+    { "source": "/environment", "destination": "/environment.html" }
+    ,{ "source": "/stores", "destination": "/stores.html" }
+    ,{ "source": "/stockists", "destination": "/stockists.html" }
+    ,{ "source": "/faqs", "destination": "/faqs.html" }
+    ,{ "source": "/contact", "destination": "/contact.html" }
   ]
 }

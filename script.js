@@ -1,3 +1,224 @@
+const siteHeaders = document.querySelectorAll('.site-header');
+const overlaySections = document.querySelectorAll('.hero, .contact-hero, .ingredients-hero, .values-hero');
+const updateHeaderState = () => {
+  siteHeaders.forEach((header) => {
+    const headerHeight = header.offsetHeight;
+    const isOverHero = [...overlaySections].some((section) => {
+      const sectionTop = section.offsetTop;
+      const sectionBottom = sectionTop + section.offsetHeight;
+      const navbarEdge = window.scrollY + headerHeight;
+      return navbarEdge > sectionTop && navbarEdge < sectionBottom;
+    });
+    header.classList.toggle('is-on-hero', isOverHero);
+    header.classList.toggle('is-scrolled', !isOverHero && window.scrollY > 0);
+  });
+};
+
+updateHeaderState();
+window.addEventListener('scroll', updateHeaderState, { passive: true });
+
+const defaultCart = [];
+const bagStorageKey = 'ruwa-bag-v2';
+let bagItems;
+try {
+  bagItems = JSON.parse(localStorage.getItem(bagStorageKey) || 'null') || defaultCart;
+} catch {
+  bagItems = defaultCart;
+}
+bagItems.forEach((item) => { item.quantity = Math.max(1, Number(item.quantity) || 1); });
+
+document.body.insertAdjacentHTML('beforeend', `<div class="bag-overlay" data-bag-close></div>
+  <aside class="bag-drawer" data-bag-drawer aria-label="Shopping bag" aria-hidden="true">
+    <div class="bag-drawer__header"><h2 data-bag-count>0 items in cart</h2><button type="button" class="bag-close" data-bag-close aria-label="Close shopping bag">×</button></div>
+    <div class="bag-drawer__items" data-bag-items></div>
+    <div class="bag-drawer__footer"><div class="bag-subtotal"><span>Subtotal</span><strong data-bag-subtotal>$0.00</strong></div><button class="bag-checkout" type="button">Checkout</button><div class="bag-payments" aria-label="Accepted payment methods"><span>VISA</span><span>●●</span><span>stripe</span><span>PayPal</span><span>G Pay</span><span> Pay</span><b>⚑ &nbsp; Made in Framer</b></div></div>
+  </aside>`);
+
+const bagDrawer = document.querySelector('[data-bag-drawer]');
+const bagItemsContainer = document.querySelector('[data-bag-items]');
+const bagCount = document.querySelector('[data-bag-count]');
+const bagSubtotal = document.querySelector('[data-bag-subtotal]');
+const formatMoney = (value) => `$${value.toFixed(2)}`;
+const saveBag = () => localStorage.setItem(bagStorageKey, JSON.stringify(bagItems));
+const renderBag = () => {
+  const itemCount = bagItems.reduce((total, item) => total + item.quantity, 0);
+  const subtotal = bagItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  bagCount.textContent = `${itemCount} item${itemCount === 1 ? '' : 's'} in cart`;
+  bagSubtotal.textContent = formatMoney(subtotal);
+  document.querySelectorAll('[href="#bag"]').forEach((link) => { link.textContent = `Bag (${itemCount})`; });
+  bagItemsContainer.innerHTML = bagItems.length ? bagItems.map((item) => `<article class="bag-item" data-bag-item="${item.id}"><img src="${item.image}" alt="${item.name}" /><div class="bag-item__details"><div class="bag-item__top"><div><h3>${item.name}</h3><p><strong>Size:</strong> ${item.size}</p></div><strong>${formatMoney(item.price * item.quantity)}</strong></div><div class="bag-item__bottom"><div class="bag-quantity"><button type="button" data-bag-decrease="${item.id}" aria-label="Decrease ${item.name}">−</button><span>${item.quantity}</span><button type="button" data-bag-increase="${item.id}" aria-label="Increase ${item.name}">+</button></div><button type="button" class="bag-remove" data-bag-remove="${item.id}" aria-label="Remove ${item.name}">×</button></div></div></article>`).join('') : '<p class="bag-empty">Your bag is empty.</p>';
+  saveBag();
+};
+const openBag = () => {
+  bagDrawer.classList.add('is-open');
+  document.querySelector('.bag-overlay').classList.add('is-open');
+  bagDrawer.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('bag-is-open');
+};
+document.addEventListener('click', (event) => {
+  if (event.target.closest('.bag-checkout')) {
+    event.preventDefault();
+    window.location.href = 'checkout.html';
+  }
+});
+const closeBag = () => {
+  bagDrawer.classList.remove('is-open');
+  document.querySelector('.bag-overlay').classList.remove('is-open');
+  bagDrawer.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('bag-is-open');
+};
+const addBagItem = (product, quantityToAdd = 1) => {
+  const existing = bagItems.find((item) => item.id === product.id);
+  if (existing) existing.quantity += quantityToAdd;
+  else bagItems.push({ ...product, quantity: quantityToAdd });
+  renderBag();
+  openBag();
+};
+renderBag();
+document.querySelectorAll('[href="#bag"]').forEach((link) => link.addEventListener('click', (event) => { event.preventDefault(); openBag(); }));
+document.querySelectorAll('[data-bag-close]').forEach((element) => element.addEventListener('click', closeBag));
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeBag(); });
+bagItemsContainer.addEventListener('click', (event) => {
+  const button = event.target.closest('button');
+  const id = button?.dataset.bagIncrease || button?.dataset.bagDecrease || button?.dataset.bagRemove;
+  if (!id) return;
+  const item = bagItems.find((entry) => entry.id === id);
+  if (button.dataset.bagIncrease && item) item.quantity += 1;
+  if (button.dataset.bagDecrease && item) item.quantity = Math.max(1, item.quantity - 1);
+  if (button.dataset.bagRemove) bagItems = bagItems.filter((entry) => entry.id !== id);
+  renderBag();
+});
+
+const searchProducts = [
+  { id: 'body-serum', name: 'Body Serum', category: 'Serum', price: '$48.30 USD', compareAt: '$69.00 USD', image: 'https://framerusercontent.com/images/STJc5naSqcZ3mkXNvWbqyjqlDHg.jpg' },
+  { id: 'eye-serum', name: 'Eye Serum', category: 'Serum', price: '$79.00 USD', image: 'https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg' },
+  { id: 'hair-serum', name: 'Hair Serum', category: 'Serum', price: '$49.00 USD', image: 'https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg' },
+  { id: 'scalp-detox', name: 'Scalp Detox', category: 'Serum', price: '$49.00 USD', image: 'https://framerusercontent.com/images/QHePlVBtjDPN3uX14Q2GLZhDM.jpg' },
+  { id: 'balance-kit', name: 'Balance Kit', category: 'Serum', price: '$89.00 USD', image: 'https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg' },
+  { id: 'body-cream', name: 'Body Cream', category: 'Skin', price: '$49.00 USD', image: 'https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg' },
+  { id: 'body-wash', name: 'Body Wash', category: 'Body', price: '$49.00 USD', image: 'https://framerusercontent.com/images/ISzRY509rGdiVqHU8xK0JXMoYk.jpg' },
+  { id: 'face-toner', name: 'Face Toner', category: 'Skin', price: '$69.00 USD', image: 'https://framerusercontent.com/images/FMSlLkSksHJIXau0oE8XqJQc0.jpg' }
+];
+document.body.insertAdjacentHTML('beforeend', `<div class="search-overlay" data-search-close></div>
+  <aside class="search-drawer" data-search-drawer aria-label="Search products" aria-hidden="true">
+    <div class="search-drawer__controls"><span aria-hidden="true">⌕</span><input type="search" data-search-input placeholder="Search" aria-label="Search products" /><button type="button" data-search-clear>Clear</button><button type="button" class="search-close" data-search-close aria-label="Close search">×</button></div>
+    <div class="search-results" data-search-results></div>
+  </aside>`);
+const searchDrawer = document.querySelector('[data-search-drawer]');
+const searchInput = document.querySelector('[data-search-input]');
+const searchResults = document.querySelector('[data-search-results]');
+const renderSearchResults = (query = '') => {
+  const normalizedQuery = query.trim().toLowerCase();
+  const matches = searchProducts.filter((product) => `${product.name} ${product.category}`.toLowerCase().includes(normalizedQuery));
+  searchResults.innerHTML = matches.length ? matches.map((product) => `<a class="search-result" href="product.html?product=${product.id}"><img src="${product.image}" alt="${product.name}" /><span><strong>${product.name}</strong><small>${product.category}</small><em>${product.compareAt ? `<del>${product.compareAt}</del> ` : ''}${product.price}</em></span></a>`).join('') : '<p class="search-empty">No products found.</p>';
+};
+const openSearch = () => {
+  closeBag();
+  renderSearchResults(searchInput.value);
+  searchDrawer.classList.add('is-open');
+  document.querySelector('.search-overlay').classList.add('is-open');
+  searchDrawer.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('bag-is-open');
+  window.requestAnimationFrame(() => searchInput.focus());
+};
+const closeSearch = () => {
+  searchDrawer.classList.remove('is-open');
+  document.querySelector('.search-overlay').classList.remove('is-open');
+  searchDrawer.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('bag-is-open');
+};
+renderSearchResults();
+document.querySelectorAll('[href="#search"]').forEach((link) => link.addEventListener('click', (event) => { event.preventDefault(); openSearch(); }));
+document.querySelectorAll('[data-search-close]').forEach((element) => element.addEventListener('click', closeSearch));
+searchInput.addEventListener('input', () => renderSearchResults(searchInput.value));
+document.querySelector('[data-search-clear]').addEventListener('click', () => { searchInput.value = ''; renderSearchResults(); searchInput.focus(); });
+searchResults.addEventListener('click', closeSearch);
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeSearch(); });
+
+const favoriteStorageKey = 'ruwa-favorites-v1';
+let favoriteItems;
+try {
+  favoriteItems = JSON.parse(localStorage.getItem(favoriteStorageKey) || '[]');
+} catch {
+  favoriteItems = [];
+}
+const saveFavorites = () => localStorage.setItem(favoriteStorageKey, JSON.stringify(favoriteItems));
+const getProductFromCard = (card) => {
+  const name = card?.querySelector('h2, h3, .environment-mini-product strong')?.textContent.trim();
+  const category = card?.querySelector('.product-info p, .catalog-info p, .featured-info p, .feature-product-info p, .recommendation-card p, .mini-product__details p, .environment-mini-product small')?.textContent.trim() || 'Skin';
+  const image = card?.querySelector('img')?.src || '';
+  const priceElement = card?.querySelector('.product-info strong, .catalog-info strong, .featured-info strong, .feature-product-info strong, .recommendation-card strong, .mini-product__details strong, .environment-mini-product b');
+  const priceText = priceElement?.textContent.match(/\$\s*[\d,.]+\s*$/)?.[0] || priceElement?.textContent.match(/\$\s*[\d,.]+/)?.[0];
+  const price = Number(priceText?.replace(/[^\d.]/g, '')) || Number(card?.dataset.price) || 0;
+  return name && price ? { id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, category, price, image } : null;
+};
+const syncFavoriteButton = (button) => {
+  const product = getProductFromCard(button.closest('.product-card, .catalog-card, .featured-card, .feature-product-card, .recommendation-card, .mini-product, .environment-mini-product'));
+  const isFavorite = Boolean(product && favoriteItems.some((item) => item.id === product.id));
+  button.classList.toggle('is-favorite', isFavorite);
+  button.textContent = isFavorite ? '♥' : '♡';
+};
+const handleFavoriteToggle = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  event.stopImmediatePropagation();
+  const button = event.currentTarget;
+  const product = getProductFromCard(button.closest('.product-card, .catalog-card, .featured-card, .feature-product-card, .recommendation-card, .mini-product, .environment-mini-product'));
+  if (!product) return;
+  const existingIndex = favoriteItems.findIndex((item) => item.id === product.id);
+  if (existingIndex >= 0) favoriteItems.splice(existingIndex, 1);
+  else favoriteItems.push(product);
+  saveFavorites();
+  syncFavoriteButton(button);
+  window.renderFavoritesPage?.();
+};
+document.querySelectorAll('.favorite-button, .catalog-favorite, .recommendation-favorite').forEach((button) => {
+  button.addEventListener('click', handleFavoriteToggle);
+  syncFavoriteButton(button);
+});
+
+const bagCardSelectors = '.product-card, .catalog-card, .featured-card, .feature-product-card, .recommendation-card, .mini-product, .environment-mini-product';
+const boundCardButtons = new WeakSet();
+const handleCardAdd = (event) => {
+  const button = event.currentTarget?.classList.contains('card-add-to-bag') ? event.currentTarget : event.target.closest('.card-add-to-bag');
+  if (!button || !button.dataset.productName) return;
+  event.preventDefault();
+  event.stopPropagation();
+  addBagItem({ id: button.dataset.productId, name: button.dataset.productName, category: button.dataset.productCategory, size: '50 ml', price: Number(button.dataset.productPrice), image: button.dataset.productImage });
+};
+document.querySelectorAll(bagCardSelectors).forEach((card) => {
+  const title = card.querySelector('h2, h3, .environment-mini-product strong')?.textContent.trim();
+  const category = card.querySelector('.product-info p, .catalog-info p, .featured-info p, .feature-product-info p, .recommendation-card p, .mini-product__details p, .environment-mini-product small')?.textContent.trim() || 'Skin';
+  const image = card.querySelector('img')?.src;
+  const priceElement = card.querySelector('.product-info strong, .catalog-info strong, .featured-info strong, .feature-product-info strong, .recommendation-card strong, .mini-product__details strong, .environment-mini-product b');
+  const priceText = priceElement?.textContent.match(/\$\s*[\d,.]+\s*$/)?.[0] || priceElement?.textContent.match(/\$\s*[\d,.]+/)?.[0];
+  const price = Number(priceText?.replace(/[^\d.]/g, '')) || Number(card.dataset.price) || 0;
+  if (!title || !priceElement || !price) return;
+  priceElement.classList.add('product-price');
+  const addButton = document.createElement('button');
+  addButton.type = 'button';
+  addButton.className = 'card-add-to-bag';
+  addButton.textContent = 'Add to bag';
+  addButton.setAttribute('aria-label', `Add ${title} to bag`);
+  addButton.dataset.productId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  addButton.dataset.productName = title;
+  addButton.dataset.productCategory = category;
+  addButton.dataset.productPrice = String(price);
+  addButton.dataset.productImage = image;
+  priceElement.insertAdjacentElement('afterend', addButton);
+  addButton.addEventListener('click', handleCardAdd);
+  boundCardButtons.add(addButton);
+});
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('.card-add-to-bag');
+  if (!button) return;
+  if (boundCardButtons.has(button)) return;
+  if (!button.dataset.productName) return;
+  event.preventDefault();
+  event.stopPropagation();
+  addBagItem({ id: button.dataset.productId, name: button.dataset.productName, category: button.dataset.productCategory, size: '50 ml', price: Number(button.dataset.productPrice), image: button.dataset.productImage });
+});
+
 const pagination = document.querySelectorAll('.pagination-dot');
 
 pagination.forEach((dot) => {
@@ -41,6 +262,41 @@ document.querySelectorAll('.collection-tab').forEach((tab) => {
 const megaPanels = document.querySelector('.mega-panels');
 const navItems = document.querySelectorAll('.nav-item');
 let closeTimer;
+
+const pageRoutes = {
+  '#collections': 'products.html',
+  'index.html#collections': 'products.html',
+  '#brand': 'about.html',
+  'index.html#brand': 'about.html',
+  'about.html#environment': 'environment.html',
+  '#values': 'values.html',
+  '#ingredients': 'ingredients.html',
+  '#environment': 'environment.html',
+  '#stores': 'stores.html',
+  'index.html#stores': 'stores.html',
+  '#favorites': 'favorites.html',
+  'index.html#favorites': 'favorites.html',
+  '#stockists': 'stockists.html',
+  'index.html#stockists': 'stockists.html',
+  '#faqs': 'faqs.html',
+  'index.html#faqs': 'faqs.html',
+  '#contact': 'contact.html',
+  'index.html#contact': 'contact.html'
+};
+Object.entries(pageRoutes).forEach(([source, destination]) => {
+  document.querySelectorAll(`a[href="${source}"]`).forEach((link) => { link.href = destination; });
+});
+
+const sharedPanelMarkup = {
+  collections: '<section class="mega-panel mega-panel--collections" data-panel-content="collections" aria-label="Collections"><div class="panel-cards panel-cards--four"><a class="panel-card panel-card--blue" href="products.html"><span>Body Care</span></a><a class="panel-card panel-card--olive" href="products.html"><span>Skin Care</span></a><a class="panel-card panel-card--rose" href="products.html"><span>Hair Care</span></a><a class="panel-card panel-card--stone" href="products.html"><span>Kits</span></a></div></section>',
+  products: '<section class="mega-panel mega-panel--products" data-panel-content="products" aria-label="Products"><div class="product-menu-links"><div><small>Shop</small><a href="products.html">All Products</a><a href="products.html">New Arrivals</a><a href="products.html">Bestsellers</a><a href="products.html">On Sale</a></div><div><small>Category</small><a href="products.html">Body</a><a href="products.html">Skin</a><a href="products.html">Hair</a></div></div></section>'
+};
+Object.entries(sharedPanelMarkup).forEach(([name, markup]) => {
+  if (megaPanels && !megaPanels.querySelector(`[data-panel-content="${name}"]`)) megaPanels.insertAdjacentHTML('beforeend', markup);
+});
+document.querySelectorAll('[data-panel-content="brand"] .panel-other').forEach((other) => {
+  other.innerHTML = '<small>Other</small><a href="stores.html">Stores</a><a href="stockists.html">Stockists</a><a href="faqs.html">FAQ\'s</a><a href="contact.html">Contact</a>';
+});
 
 const openMegaPanel = (name) => {
   window.clearTimeout(closeTimer);
@@ -193,6 +449,15 @@ subscribeForm?.addEventListener('submit', (event) => {
   if (subscribeSuccess) subscribeSuccess.hidden = false;
 });
 
+document.querySelectorAll('[data-contact-form]').forEach((form) => {
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    form.querySelectorAll('input, textarea, button').forEach((field) => { field.disabled = true; });
+    const success = form.querySelector('[data-contact-success]');
+    if (success) success.hidden = false;
+  });
+});
+
 const productCatalog = document.querySelector('[data-catalog-grid]');
 if (productCatalog) {
   const catalogCards = [...productCatalog.querySelectorAll('[data-product-card]')];
@@ -261,7 +526,15 @@ document.querySelectorAll('.size-option').forEach((option) => option.addEventLis
 const quantity = document.querySelector('[data-quantity]');
 document.querySelector('[data-quantity-minus]')?.addEventListener('click', () => { if (quantity) quantity.textContent = Math.max(1, Number(quantity.textContent) - 1); });
 document.querySelector('[data-quantity-plus]')?.addEventListener('click', () => { if (quantity) quantity.textContent = Number(quantity.textContent) + 1; });
-document.querySelector('[data-add-cart]')?.addEventListener('click', (event) => { event.currentTarget.textContent = 'Added to cart'; });
+document.querySelector('[data-add-cart]')?.addEventListener('click', (event) => {
+  const name = document.querySelector('#product-title')?.textContent.trim() || 'Body Cream';
+  const category = document.querySelector('.product-detail-category')?.textContent.trim() || 'Skin';
+  const price = Number(document.querySelector('.product-details-panel strong')?.textContent.replace(/[^\d.]/g, '')) || 49;
+  const image = document.querySelector('.product-image-strip img')?.src || 'https://framerusercontent.com/images/tuQYhg1jfjMTQ4Baswx5DJGLI.jpg';
+  const size = document.querySelector('.size-option.is-selected')?.textContent.trim() || '100 ml';
+  addBagItem({ id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, category, size, price, image }, Number(quantity?.textContent) || 1);
+  event.currentTarget.textContent = 'Added to cart';
+});
 document.querySelectorAll('.detail-accordion').forEach((button) => button.addEventListener('click', () => {
   button.classList.toggle('is-open');
   button.querySelector('span').textContent = button.classList.contains('is-open') ? '−' : '+';
@@ -322,6 +595,35 @@ document.addEventListener('click', (event) => {
   if (!title || !document.querySelector('[data-catalog-grid]')) return;
   event.preventDefault();
   window.location.href = `product.html?product=${encodeURIComponent(title.toLowerCase().replace(/[^a-z0-9]+/g, '-'))}`;
+});
+
+window.renderFavoritesPage = () => {
+  const grid = document.querySelector('[data-favorites-grid]');
+  const empty = document.querySelector('[data-favorites-empty]');
+  const count = document.querySelector('[data-favorites-count]');
+  if (!grid) return;
+  if (count) count.textContent = `${favoriteItems.length} product${favoriteItems.length === 1 ? '' : 's'}`;
+  if (empty) empty.hidden = favoriteItems.length > 0;
+  grid.innerHTML = favoriteItems.map((product) => `<article class="catalog-card" data-price="${product.price}"><a class="catalog-image" href="product.html?product=${product.id}"><img src="${product.image}" alt="${product.name}" loading="lazy" /><button class="catalog-favorite is-favorite" type="button" aria-label="Remove ${product.name} from favorites">♥</button></a><div class="catalog-info"><div><h2>${product.name}</h2><p>${product.category}</p></div><strong class="product-price">$${Number(product.price).toFixed(2)}</strong><button class="card-add-to-bag" type="button" data-product-id="${product.id}" data-product-name="${product.name}" data-product-category="${product.category}" data-product-price="${product.price}" data-product-image="${product.image}">Add to bag</button></div></article>`).join('');
+  grid.querySelectorAll('.catalog-favorite').forEach((button) => button.addEventListener('click', handleFavoriteToggle));
+};
+window.renderFavoritesPage();
+
+const checkoutItems = document.querySelector('[data-checkout-items]');
+const checkoutTotal = document.querySelector('[data-checkout-total]');
+if (checkoutItems && checkoutTotal) {
+  const checkoutSubtotal = bagItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  checkoutItems.innerHTML = bagItems.length ? bagItems.map((item) => `<div class="checkout-item"><img src="${item.image}" alt="${item.name}" /><div><strong>${item.name}</strong><span>${item.quantity} × ${formatMoney(item.price)}</span></div><b>${formatMoney(item.price * item.quantity)}</b></div>`).join('') : '<p class="checkout-empty">Your bag is empty. Add a product before checking out.</p>';
+  checkoutTotal.textContent = formatMoney(checkoutSubtotal);
+}
+document.querySelector('[data-mpesa-form]')?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector('button[type="submit"]');
+  const success = form.querySelector('[data-mpesa-success]');
+  form.querySelectorAll('input, button').forEach((field) => { field.disabled = true; });
+  if (button) button.textContent = 'Prompt sent';
+  if (success) success.hidden = false;
 });
 
 document.querySelectorAll('.recommendation-favorite').forEach((button) => button.addEventListener('click', (event) => {

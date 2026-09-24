@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Your favorite All Natural skincare products." />
+    <title>Favorites — All Natural</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body class="favorites-page">
+    <header class="site-header products-header favorites-header" id="top">
+      <a class="brand brand--mobile" href="index.html">All Natural<sup>™</sup></a>
+      <nav class="site-nav site-nav--left" aria-label="Primary navigation"><a href="products.html">Collections</a><a href="products.html">Products</a><a href="about.html">Brand</a><a href="index.html#journal">Journal</a></nav>
+      <a class="brand brand--desktop" href="index.html">All Natural<sup>™</sup></a>
+      <nav class="site-nav site-nav--right" aria-label="Utility navigation"><a href="#account">Account</a><a href="favorites.html" aria-current="page">Favorites</a><a href="#search">Search</a><a href="#bag">Bag (0)</a></nav>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    </header>
+    <main>
+      <section class="favorites-section" aria-labelledby="favorites-title">
+        <div class="favorites-intro"><h1 id="favorites-title">Favorites</h1><p>Your favorite picks, all in one place.<br />Naturally curated by you.</p></div>
+        <div class="favorites-toolbar"><span data-favorites-count>0 products</span><label>Sort by <select aria-label="Sort favorites"><option>Relevance</option></select></label></div>
+        <div class="catalog-grid favorites-grid" data-favorites-grid></div>
+        <p class="favorites-empty" data-favorites-empty hidden>You haven’t saved any favorites yet.</p>
+      </section>
+    </main>
+  </body>
+</html>

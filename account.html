@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sign in to your Ruwa Biosciences account to manage saved products, orders, and healthcare supply enquiries." />
+    <meta property="og:title" content="Account | Ruwa Biosciences" />
+    <meta property="og:description" content="Sign in to your Ruwa Biosciences account." />
+    <meta property="og:image" content="assets/Logo/Ruwa%20Bioscience%20logo.png" />
+    <title>Account | Ruwa Biosciences</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body class="account-page">
+    <header class="site-header account-header">
+      <a class="brand brand--mobile" href="index.html" aria-label="Ruwa Biosciences home">Ruwa Biosciences<sup>™</sup></a>
+      <nav class="site-nav site-nav--left" aria-label="Primary navigation"><a href="products.html">Categories</a><a href="products.html">Products</a><a href="about.html">About Ruwa</a><a href="index.html#journal">Resources</a></nav>
+      <a class="brand brand--desktop" href="index.html" aria-label="Ruwa Biosciences home">Ruwa Biosciences<sup>™</sup></a>
+      <nav class="site-nav site-nav--right" aria-label="Utility navigation"><a class="is-current" href="account.html">Account</a><a href="favorites.html">Favorites</a><a href="#search">Search</a><a href="#bag">Bag (0)</a></nav>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    </header>
+
+    <main class="account-main">
+      <section class="account-card" aria-labelledby="account-title">
+        <p class="account-kicker">Ruwa Biosciences</p>
+        <h1 id="account-title">Welcome back</h1>
+        <p class="account-intro">Sign in to manage your saved products, orders, and healthcare supply enquiries.</p>
+        <form class="account-form" data-login-form>
+          <label for="account-email">Email address</label>
+          <input id="account-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          <label for="account-password">Password</label>
+          <input id="account-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+          <div class="account-form-row"><label class="account-checkbox"><input type="checkbox" name="remember" /> <span>Remember me</span></label><a href="#forgot-password">Forgot password?</a></div>
+          <button type="submit">Sign in <span aria-hidden="true">↗</span></button>
+          <p class="account-success" data-login-success hidden>Demo sign-in received. Account access will be connected later.</p>
+        </form>
+        <p class="account-register">Need an account? <a href="contact.html">Contact Ruwa Biosciences</a></p>
+      </section>
+    </main>
+  </body>
+</html>

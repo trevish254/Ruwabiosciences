@@ -496,6 +496,15 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
   });
 });
 
+document.querySelector('[data-login-form]')?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector('button[type="submit"]');
+  const success = form.querySelector('[data-login-success]');
+  if (button) button.textContent = 'Sign-in received';
+  if (success) success.hidden = false;
+});
+
 const productCatalog = document.querySelector('[data-catalog-grid]');
 if (productCatalog) {
   const catalogCards = [...productCatalog.querySelectorAll('[data-product-card]')];
@@ -741,6 +750,7 @@ const replaceRuwaText = (value) => {
 };
 const applyRuwaContent = () => {
   document.title = replaceRuwaText(document.title);
+  document.querySelectorAll('a[href="#account"]').forEach((link) => { link.href = 'account.html'; });
   document.querySelectorAll('.site-header .brand').forEach((brand) => {
     if (brand.querySelector('.brand-logo')) return;
     brand.textContent = '';
